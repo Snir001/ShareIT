@@ -2,7 +2,7 @@
 	<div class="w3-teal">
 
 		<div class="w3-container">
-			<h1>My Page ${param.title} </h1>
+			<h1>${param.title}</h1>
 		</div>
 	</div>
 
@@ -11,27 +11,18 @@
 	<div class="w3-bar w3-black">
 
 		<a class="w3-bar-item w3-button w3-mobile w3-hide-large"
-			onclick="toggle_menu()">&#9776;</a> <a href="#"
-			class="w3-bar-item w3-button w3-mobile w3-hover-green">Search</a> <a
-			href="#" class="w3-bar-item w3-button w3-mobile">Explore</a> <a
-			href="#" class="w3-bar-item w3-button w3-mobile">Help</a>
-		<%
-			//TODO: add page search!
-		%>
-		<%
-			//TODO: add page explore!
-		%>
-		<%
-			//TODO: add page Help!
-		%>
-
-		<%
-			if (session.getAttribute("name") != null)
-				out.print("<a href='#' class='w3-bar-item w3-button w3-mobile w3-right'> Welcome "
-						+ session.getAttribute("name") + " </a>");
-			else
-				out.print("<a href='login.html' class='w3-bar-item w3-button w3-mobile w3-right'> Login </a>");
-		%>
+			onclick="toggle_menu()">&#9776;</a> 
+			<a href="SearchServlet"	class="w3-bar-item w3-button w3-mobile w3-hover-green">Search</a> <a
+			href="ExploreServlet" class="w3-bar-item w3-button w3-mobile">Explore</a> <a
+			href="HelpServlet" class="w3-bar-item w3-button w3-mobile">Help</a>
+			<a href='ProfileServlet' class='w3-bar-item w3-button w3-mobile w3-right'>
+				<%
+					if (session.getAttribute("name") != null)
+						out.print(session.getAttribute("name") + "'s Profile");
+					else
+						out.print("Login ");
+				%>
+			</a>
 		
 
 
@@ -54,11 +45,11 @@
 				type="submit" value="login">
 				</form>
 			-->
-		<a href="#" class="w3-bar-item w3-button">Add Item</a>
-		 <a href="#" class="w3-bar-item w3-button">My Items</a> <a href="#"
-			class="w3-bar-item w3-button">Requests</a>
-			 <a href="#" class="w3-bar-item w3-button">Offers</a>
-			  <a href="LogoutServlet"	class="w3-bar-item w3-button"> Logout </a>
+		<a href="AddItemServlet" class="w3-bar-item w3-button">Add Item</a>
+		<a href="MyItemsServlet" class="w3-bar-item w3-button">My Items</a> 
+		<a href="RequestsServlet"	class="w3-bar-item w3-button">Requests</a>
+		<a href="OffersServlet" class="w3-bar-item w3-button">Offers</a>
+		<a href="LogoutServlet" class="w3-bar-item w3-button"> Logout </a>
 		<%//TODO: add page Add Item!%>
 		<%//TODO: add page Requests!%>
 		<%//TODO: add page offers!%>

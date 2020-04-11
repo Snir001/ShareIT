@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class ExploreServlet
+ * Servlet implementation class ResultsServlet
  */
-@WebServlet("/ExploreServlet")
-public class ExploreServlet extends HttpServlet {
+@WebServlet("/ResultsServlet")
+public class ResultsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ExploreServlet() {
+    public ResultsServlet() {
         super();
     }
 
@@ -29,14 +29,21 @@ public class ExploreServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");  
-		PrintWriter out=response.getWriter();  
-		request.setAttribute("title","Explore");
-		request.setAttribute("page","content/Explore.jsp");
+		response.setContentType("text/html");
+		PrintWriter out=response.getWriter();
+		
+		String search=request.getParameter("search");
+		request.setAttribute("search", search);
+		//TODO get search results and send them to jsp
+		
+		request.setAttribute("title", "Results");
+		request.setAttribute("page","content/Results.jsp");
 
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
         rd.forward(request, response); 
-		out.close();  
+		out.close(); 
+		
+		
 	}
 
 	/**

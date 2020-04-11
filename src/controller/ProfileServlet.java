@@ -31,24 +31,24 @@ public class ProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");  
 		PrintWriter out=response.getWriter();  
-//		request.getRequestDispatcher("link.html").include(request, response);  
+		request.setAttribute("title","Profile");
 
 		HttpSession session=request.getSession(false);  
+		
 		if(session.getAttribute("name")!=null){  
 			String name=(String)session.getAttribute("name");  
 			request.setAttribute("name",name);
 			request.setAttribute("good","yes");
-	         out.print("Hello, "+name+" Welcome to Profile");
-	         out.print("id is: " + session.getId());
-			 RequestDispatcher rd=request.getRequestDispatcher("ProfileDet.jsp");  
-	         rd.forward(request, response); 
+			request.setAttribute("page","ProfileDet.jsp");
 
+			out.print("Hello, "+name+" Welcome to Profile");
+			out.print("id is: " + session.getId());
 		}  
 		else{  
-			request.getRequestDispatcher("login.html").include(request, response);
-			
-			
+			request.setAttribute("page","content/login.jsp");
 		}  
+		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
+		rd.forward(request, response); 
 		out.close();  
 	}
 
@@ -56,7 +56,6 @@ public class ProfileServlet extends HttpServlet {
  * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
  */
 protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	// TODO Auto-generated method stub
 	doGet(request, response);
 }
 

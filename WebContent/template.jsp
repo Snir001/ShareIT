@@ -11,9 +11,6 @@
 </head>
 <body>
 
-
-
-
 	<jsp:include page="jsp/bodyHeader.jsp">
 		<jsp:param name='title' value="${title}" />
 	</jsp:include>
@@ -22,15 +19,7 @@
 	<div class="w3-main" style="margin-left: 250px">
 	<jsp:include page="${page}" />
 	
-	
-	
 	</div>
-	
-	
-
-
-
-
 
 </body>
 </html>

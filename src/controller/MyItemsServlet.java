@@ -12,51 +12,49 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class MyItemsServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/MyItemsServlet")
+public class MyItemsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public MyItemsServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html");  
+		PrintWriter out=response.getWriter();  
+		request.setAttribute("title","My Items");
+
+		HttpSession session=request.getSession(false);  
+		
+		if(session.getAttribute("name")!=null){  
+			String name=(String)session.getAttribute("name");  
+			request.setAttribute("name",name);
+			request.setAttribute("page","content/MyItems.jsp");
+		}  
+		else{  
+			request.setAttribute("page","content/LoginFirst.jsp");
+		}  
+		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
+		rd.forward(request, response); 
+		out.close();  
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		PrintWriter out=response.getWriter();
-		
-		
-		String name=request.getParameter("name");
-		String password=request.getParameter("password");
-		
-		if(password.equals("1234")) {
-			HttpSession session=request.getSession();
-			session.setAttribute("name",name);
-			request.setAttribute("title", "MainPage");
-			request.getRequestDispatcher("index.jsp").include(request, response);
-		}
-		else{
-			request.setAttribute("page","content/LoginFirst.jsp");
-			RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
-			rd.forward(request, response); 
-		}
-
-
-		out.close();
+		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

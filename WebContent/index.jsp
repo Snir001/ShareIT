@@ -4,18 +4,18 @@
 <html>
 <head>
 	<jsp:include page="jsp/head.jsp">
-		<jsp:param name='title' value=" ${title} " />
+		<jsp:param name='title' value="ShareIT" />
 	</jsp:include>
 </head>
 <body>
 
 	<jsp:include page="jsp/bodyHeader.jsp">
-		<jsp:param name='title' value=" ${title} " />
+		<jsp:param name='title' value="Welcome!" />
 	</jsp:include>
 	
 	<div class="w3-main" style="margin-left: 250px">
 	
-		<jsp:include page="content/explore.jsp" />
+		<jsp:include page="content/Explore.jsp" />
 	
 	</div>
 
