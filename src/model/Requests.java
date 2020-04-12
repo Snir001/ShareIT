@@ -1,3 +1,5 @@
+package model;
+
 
 public class Requests {
 	private String requestID = null;

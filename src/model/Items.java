@@ -1,3 +1,5 @@
+package model;
+
 
 public class Items {
 	private String itemID = null;
@@ -5,8 +7,9 @@ public class Items {
 	private String ownerID = null; // userID
 	private String category = null;
 	private String itemValue = null;
-	private String decription = null;
 	private String condition = null;
+	private String decription = null;
+	private String picture = null;
 	
 	public String getItemID() {
 		return itemID;
@@ -49,5 +52,11 @@ public class Items {
 	}
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 }

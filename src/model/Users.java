@@ -1,15 +1,32 @@
+package model;
+
 
 public class Users extends User {
-	private String userID = null;
-	private String name = null;
-	private String userName = null;
-	private String password = null;
-	private String mail = null;
-	private String city = null;
-	private String address = null;
-	private String phone = null;
-	private String gender = null;
-	private String privileges = null;
+	private String userID;
+	private String last_name;
+	private String first_name;
+	private String userName;
+	private String password;
+	private String mail;
+	private String city;
+	private String address;
+	private String phone;
+	private String gender;
+	private String privileges;
+	
+	public Users() {
+		userID = null;
+		last_name = null;
+		first_name = null;
+		userName = null;
+		password = null;
+		mail = null;
+		city = null;
+		address = null;
+		phone = null;
+		gender = null;
+		privileges = null;
+	}
 	
 	public String getUserID() {
 		return userID;
@@ -17,11 +34,17 @@ public class Users extends User {
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public String getName() {
-		return name;
+	public String getLast_name() {
+		return last_name;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+	public String getFirst_name() {
+		return first_name;
+	}
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
 	}
 	public String getUserName() {
 		return userName;
