@@ -1,8 +1,21 @@
 <form action="AddItemHandlerServlet" method="post">
 Name:<input type="text" name="name"><br>
-Category:<input type="text" name="name"><br>
-Item Value:<input type="text" name="name"><br>
-Condition:<input type="text" name="name"><br>
-Description:<input type="text" name="name"><br>
-<input type="submit" value="submit">
+Category:
+<select class="" name="category">
+  <option value="" disabled selected>Choose your option</option>
+  <option value="work">Work</option>
+  <option value="kitchen">Kitchen</option>
+  <option value="unicorns">Unicorns</option>
+</select> <br>
+Item Value:<input type="text" name="value"><br>
+Condition:<select class="" name="condition">
+  <option value="" disabled selected>Choose your option</option>
+  <option value="new">As new</option>
+  <option value="good">Good</option>
+  <option value="used">Used</option>
+  <option value="bad">Bad</option>
+</select><br>
+Description:<input type="text" name="description"><br>
+PictureUrl:<input type="text" name="picture"><br>
+<input type="submit" value="submit"> <input type="reset" value="reset">
 </form>

@@ -1,2 +1,2 @@
 
-this is list of  items
+this is list of ${name}  items
