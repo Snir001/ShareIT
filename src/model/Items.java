@@ -2,14 +2,25 @@ package model;
 
 
 public class Items {
-	private String itemID = null;
-	private String name = null;
-	private String ownerID = null; // userID
-	private String category = null;
-	private String itemValue = null;
-	private String condition = null;
-	private String decription = null;
-	private String picture = null;
+	private String itemID;
+	private String name;
+	private String ownerID; // userID
+	private String category;
+	private String itemValue;
+	private String condition;
+	private String decription;
+	private String picture;
+	
+	public Items() {
+		itemID = null;
+		name = null;
+		ownerID = null; // userID
+		category = null;
+		itemValue = null;
+		condition = null;
+		decription = null;
+		picture = null;
+	}
 	
 	public String getItemID() {
 		return itemID;

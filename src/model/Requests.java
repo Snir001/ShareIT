@@ -2,14 +2,23 @@ package model;
 
 
 public class Requests {
-	private String requestID = null;
-	private String itemID = null;
-	private String ownerID = null;
-	private String borrowerID = null;
-	private String period = null;
-	private String date = null;
-	private String response = null;
+	private String requestID;
+	private String itemID;
+	private String ownerID;
+	private String borrowerID;
+	private String period;
+	private String date;
+	private String response;
 	
+	public Requests() {
+		requestID = null;
+		itemID = null;
+		ownerID = null;
+		borrowerID = null;
+		period = null;
+		date = null;
+		response = null;
+	}
 	public String getRequestID() {
 		return requestID;
 	}
