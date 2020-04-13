@@ -1,4 +1,4 @@
-<form action="AddItemHandlerServlet" method="post">
+<form action="AddItemHandlerServlet" method="post" enctype="multipart/form-data">
 Name:<input type="text" name="name"><br>
 Category:
 <select class="" name="category">
@@ -16,6 +16,7 @@ Condition:<select class="" name="condition">
   <option value="bad">Bad</option>
 </select><br>
 Description:<input type="text" name="description"><br>
-PictureUrl:<input type="text" name="picture"><br>
+<input type="file" name="file" value="explore" />
+ItemId:<input type="text" name="itemid"><br>
 <input type="submit" value="submit"> <input type="reset" value="reset">
 </form>
