@@ -17,13 +17,12 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/ProfileServlet")
 public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public ProfileServlet() {
-		super();
-	}
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    	public ProfileServlet() {
+        	super();
+    	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,6 +30,7 @@ public class ProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");  
 		PrintWriter out=response.getWriter();  
+		
 		request.setAttribute("title","Profile");
 
 		HttpSession session=request.getSession(false);  
@@ -44,19 +44,22 @@ public class ProfileServlet extends HttpServlet {
 			out.print("Hello, "+name+" Welcome to Profile");
 			out.print("id is: " + session.getId());
 		}  
-		else{  
-			request.setAttribute("page","content/login.jsp");
+		else 
+		{  
+			request.setAttribute("page","content/Login.jsp");
+
 		}  
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
 		rd.forward(request, response); 
-		out.close();  
+		out.close(); 
 	}
 
-/**
- * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
- */
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	doGet(request, response);
-}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
 
 }
