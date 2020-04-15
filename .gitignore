@@ -1,2 +1,4 @@
 /build/
 WebContent/ItemPictures/*
+.classpath
+WebContent/WEB-INF/web.xml
