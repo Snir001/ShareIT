@@ -13,4 +13,9 @@
         <param-name>upload_location</param-name>
         <param-value>C:\\Users\\SnirY\\OneDrive\\Documents\\Bar Ilan\\sems5\\Software eng\\ShareIT\\WebContent\\ItemPictures\\</param-value>
   </context-param>
+  <servlet>
+  	<servlet-name>CreateModelServlet</servlet-name>
+  	<servlet-class>controller.InitiateModel</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
 </web-app>
