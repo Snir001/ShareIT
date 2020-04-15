@@ -36,7 +36,7 @@
 	%>
 	<div
 		class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left"
-		style="width: 250px;" id="mySidebar">
+		style="top: 113px; display: none" id="mySidebar">
 		<!--<button class="w3-bar-item w3-button w3-large w3-hide-large"
 				onclick="w3_close()">Close &times;</button>  -->
 		<!-- 	<form action="ControllerServlet" method="post">
@@ -49,11 +49,18 @@
 		<a href="MyItemsServlet" class="w3-bar-item w3-button">My Items</a> 
 		<a href="RequestsServlet"	class="w3-bar-item w3-button">Requests</a>
 		<a href="OffersServlet" class="w3-bar-item w3-button">Offers</a>
+		<%
+			if (session.getAttribute("privilege") != null) {
+				//TODO:make this text different color
+				out.print("<a href=\"SearchHistoryServlet\" class=\"w3-bar-item w3-button\">Serach History</a>");
+				out.print("<a href=\"UsersListServlet\" class=\"w3-bar-item w3-button\">Users List</a>");
+				out.print("<a href=\"AllItemsServlet\" class=\"w3-bar-item w3-button\">All Items List</a>");
+			} 
+		%>
+		
+		
 		<a href="LogoutServlet" class="w3-bar-item w3-button"> Logout </a>
-		<%//TODO: add page Add Item!%>
-		<%//TODO: add page Requests!%>
-		<%//TODO: add page offers!%>
-		<%//TODO: add page my items!%>
+
 
 
 	</div>
