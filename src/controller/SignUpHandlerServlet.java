@@ -17,14 +17,14 @@ import javax.servlet.http.Part;
 /**
  * Servlet implementation class SignUpHandlerSevlet
  */
-@WebServlet("/SignUpHandlerSevlet")
-public class SignUpHandlerSevlet extends HttpServlet {
+@WebServlet("/SignUpHandlerServlet")
+public class SignUpHandlerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SignUpHandlerSevlet() {
+    public SignUpHandlerServlet() {
         super();
     }
 
@@ -42,7 +42,7 @@ public class SignUpHandlerSevlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		model.Users user=(model.Users)request.getSession().getAttribute("user");
+
 		model.Users newUser=new model.Users();
 		
 		//get new user parameters
@@ -85,6 +85,7 @@ Phone:<input type="text" name="phone"><br>
 			msg.append("somthing went wrong, try different userid"+userId);
 
 		}
+		System.out.println(msg);
 		request.setAttribute("page","content/FreeMessage.jsp");
 		request.setAttribute("message",msg);
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
