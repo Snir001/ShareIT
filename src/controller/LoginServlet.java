@@ -38,22 +38,39 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
+		System.out.println("loginServlet");
+		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		
-		
-		String name=request.getParameter("name");
+
+		String id=request.getParameter("userid");
 		String password=request.getParameter("password");
 		
-		if(password.equals("1234")) {
+		
+		
+		model.Users user = mod.login(id, password);
+		System.out.println("user = "+id);
+		System.out.println("password = "+password);
+		System.out.println("userID = "+user.getUserID());
+		if(user.getUserID() != null) {
+//		if(password.equals("1234")) {
+			
+			//associate the session to the user
 			HttpSession session=request.getSession();
-			session.setAttribute("name",name);
+			//set the user of the session (can have object)
+			session.setAttribute("user",user); //change the second arg to the user class
+			session.setAttribute("name",user.getUserName()); //change the second arg to the user class
+			if(id.equals("admin")) { session.setAttribute("privilege","admin");}
+			
 			request.setAttribute("title", "MainPage");
-			request.getRequestDispatcher("index.jsp").include(request, response);
+			request.setAttribute("page","content/Explore.jsp");
+
 		}
 		else{
+			request.setAttribute("title", "Login Error");
 			request.setAttribute("page","content/LoginFirst.jsp");
-			RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
-			rd.forward(request, response); 
 		}
+		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
+		rd.forward(request, response); 
 
 
 		out.close();

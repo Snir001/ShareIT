@@ -36,13 +36,15 @@ public class ProfileServlet extends HttpServlet {
 		HttpSession session=request.getSession(false);  
 		
 		if(session.getAttribute("name")!=null){  
+			
+
 			String name=(String)session.getAttribute("name");  
 			request.setAttribute("name",name);
 			request.setAttribute("good","yes");
 			request.setAttribute("page","ProfileDet.jsp");
-
-			out.print("Hello, "+name+" Welcome to Profile");
-			out.print("id is: " + session.getId());
+			
+			System.out.println("Hello, "+name+" Welcome to Profile");
+			System.out.println("id is: " + session.getId());
 		}  
 		else 
 		{  

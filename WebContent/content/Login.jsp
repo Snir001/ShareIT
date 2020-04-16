@@ -1,7 +1,7 @@
 <center>
 <h1>Login</h1>
 <form action="LoginServlet" method="post">
-Name:<input type="text" name="name"><br>
+Id:<input type="text" name="userid"><br>
 Password:<input type="password" name="password"><br>
 <input type="submit" value="submit">
 </form>

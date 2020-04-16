@@ -19,7 +19,8 @@ public class InitiateModel extends HttpServlet {
 	public void init() throws ServletException
 	{
 		System.out.println("---------- Here shoud come the code that create model instance----------");
-//		model.Model myModel=new model.Model();
-//		getServletContext().setAttribute("model", myModel);
+		model.Model myModel=new model.Model();
+		getServletContext().setAttribute("model", myModel);
+		System.out.println("----");
 	}
 }
