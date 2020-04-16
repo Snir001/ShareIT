@@ -32,7 +32,7 @@
 
 	<!-- Navigation bar -->
 	<%
-		//TODO: navigation bar dot have top whcn scrolling down
+		//TODO BTR: navigation bar dot have top whcn scrolling down
 	%>
 	<div
 		class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left"
@@ -55,7 +55,7 @@
 				out.print("<a href=\"SearchHistoryServlet\" class=\"w3-bar-item w3-button\">Serach History</a>");
 				out.print("<a href=\"UsersListServlet\" class=\"w3-bar-item w3-button\">Users List</a>");
 				out.print("<a href=\"AllItemsServlet\" class=\"w3-bar-item w3-button\">All Items List</a>");
-			} 
+			}
 		%>
 		
 		

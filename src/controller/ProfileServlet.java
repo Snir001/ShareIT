@@ -33,9 +33,10 @@ public class ProfileServlet extends HttpServlet {
 		
 		request.setAttribute("title","Profile");
 
+		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		HttpSession session=request.getSession(false);  
-		
-		if(session.getAttribute("name")!=null){  
+		model.Users user=(model.Users)session.getAttribute("user");
+		if(user!=null){
 			
 
 			String name=(String)session.getAttribute("name");  
@@ -60,7 +61,6 @@ public class ProfileServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

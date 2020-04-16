@@ -7,8 +7,10 @@
 	<%
 				for (int i = 0; i < 4; i++) {
 					out.print("<div class='w3-col s12 m4 l3 w3-center w3-card-4' style=''>");
-					out.print("<img src='photos/ladder.jpg' class='w3-round w3-padding-16'>");
-					out.print("<h5>item " + i + "</h5></div>");
+					out.print("<a href=ItemDetails?id="+i+"><img src='photos/ladder.jpg' class='w3-round w3-padding-16' height='150' width='150'>");
+					out.print("<h5>item " + i + "</h5>");
+					out.print("</div>");
+
 				}
 	%>
 

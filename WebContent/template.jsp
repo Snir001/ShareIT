@@ -16,7 +16,7 @@
 	</jsp:include>
 	
 	
-	<div class="w3-main" style="margin-left: 250px">
+	<div class="w3-main" style="margin-left: 250px; margin-right: 50px">
 	<jsp:include page="${page}" />
 	
 	</div>
