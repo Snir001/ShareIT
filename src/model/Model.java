@@ -5,8 +5,8 @@ import java.sql.*;
 public class Model {
 	Connection myCon;
 	String[] users_columns = {"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
-	String[] items_columns = {"name", "owner(userID)", "category", "item_value", "item_condition", "description", "picture"};
-	String[] requests_columns = {"itemID", "owner(userID)", "borrower(userID)", "period", "response"};
+	String[] items_columns = {"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
+	String[] requests_columns = {"itemID", "owner", "borrower", "period", "response"};
 	
 	public Model() {
 		try {
@@ -32,8 +32,8 @@ public class Model {
 			// Process the result set
 			while (myRs.next()) {
 				user.setUserID(myRs.getString("userID"));
-				user.setLast_name(myRs.getString("last_name"));
-				user.setFirst_name(myRs.getString("first_name"));
+				user.setLastName(myRs.getString("last_name"));
+				user.setFirstName(myRs.getString("first_name"));
 				user.setUserName(myRs.getString("user_name"));
 				user.setPassword(myRs.getString("password"));
 				user.setMail(myRs.getString("email"));
@@ -50,10 +50,11 @@ public class Model {
 	}
 
 	//##################################################################################################################################################
-	public String signUp(String data[]) {
+	public String addUser(Users user) {
 		String userID = null;
 		try {
 			Statement myStmt = myCon.createStatement();
+			String[] data = userToList(user);
 			String query = addQuery("users", users_columns, data);
 			String getID = "SELECT userID FROM items ORDER BY userID DESC LIMIT 1";
 			myStmt.executeUpdate(query);
@@ -76,7 +77,7 @@ public class Model {
 			Statement myStmt = myCon.createStatement();
 			String query = addQuery("items", items_columns, data);
 			String getID = "SELECT itemID FROM items ORDER BY itemID DESC LIMIT 1";
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			ResultSet myRs = myStmt.executeQuery(getID);
 			while (myRs.next()) {
 				itemID =  myRs.getString("itemID");
@@ -170,7 +171,7 @@ public class Model {
 	// input: 
 	// output:
 	//##################################################################################################################################################
-	public static String addQuery(String TableName, String columns[], String data[]) {
+	private static String addQuery(String TableName, String columns[], String data[]) {
 		String queryA = "INSERT INTO `" + TableName + "` (";
 		int i, j;
 		for (i = 0; i < columns.length - 1; i++) {
@@ -182,10 +183,11 @@ public class Model {
 		}
 		queryA += "'"+ data[i] + "'";
 		queryA += ")";
+		System.out.println("in Model.addQuaery:" + queryA);
 		return queryA;
 	}
 	//##################################################################################################################################################
-	public static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {
+	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {
 		String query = "UPDATE `" + TableName + "` SET ";
 		int i;
 		for (i = 0; i < data.length - 1; i++) {
@@ -194,6 +196,19 @@ public class Model {
 		query += columns[i] + " = '" + data[i] + "'" + " WHERE " + TableName +"." + TableKey + " = " + index;
 		return query;
 	}
+	private String[] userToList(Users user) {
+		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
+		Object[] functions = {user.getLastName(), user.getFirstName(), user.getUserName(), user.getPassword(), user.getMail(), user.getCity(), user.getAddress(), user.getPhone(), user.getGender(), user.getPrivileges()};
+		for (int i = 0; i <= 10; i++) {
+			data[i] = (String) functions[i];
+		}
+		System.out.println("data list: " + data);
+		return data;
+	}
+	
+	// TODO: Items[] getUserItems(String UserID)
+	//##################################################################################################################################################
+	//
 	// TODO: String removeQuery(String index)
 	//##################################################################################################################################################
 	//

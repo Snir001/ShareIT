@@ -3,8 +3,8 @@ package model;
 
 public class Users extends User {
 	private String userID;
-	private String last_name;
-	private String first_name;
+	private String lastName;
+	private String firstName;
 	private String userName;
 	private String password;
 	private String mail;
@@ -16,8 +16,8 @@ public class Users extends User {
 	
 	public Users() {
 		userID = null;
-		last_name = null;
-		first_name = null;
+		lastName = null;
+		firstName = null;
 		userName = null;
 		password = null;
 		mail = null;
@@ -34,17 +34,17 @@ public class Users extends User {
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String last_name) {
+		this.lastName = last_name;
 	}
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String first_name) {
+		this.firstName = first_name;
 	}
 	public String getUserName() {
 		return userName;
@@ -96,8 +96,8 @@ public class Users extends User {
 	}
 	public String printUser() {
 		String details = this.getUserID();
-		details += "\n" + this.getLast_name();
-		details += "\n" + this.getFirst_name();
+		details += "\n" + this.getLastName();
+		details += "\n" + this.getFirstName();
 		details += "\n" + this.getUserName();
 		details += "\n" + this.getPassword();
 		details += "\n" + this.getMail();
