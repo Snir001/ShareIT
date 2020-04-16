@@ -31,7 +31,6 @@ public class AddItemHandlerServlet extends HttpServlet {
      */
     public AddItemHandlerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
 //    used for file saving
@@ -49,8 +48,7 @@ public class AddItemHandlerServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.getWriter().append("Served at: ").append(request.getContextPath()).append("\nshould be post method!");
 	}
 
 	/**
@@ -59,16 +57,22 @@ public class AddItemHandlerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
-
+		model.Model mod = (model.Model)getServletContext().getAttribute("model");
+		model.Users user=(model.Users)request.getSession().getAttribute("user");
 		String ItemName=request.getParameter("name");
 		String ItemCategory=request.getParameter("category");
 		String ItemValue=request.getParameter("value");
 		String ItemCondition=request.getParameter("condition");
 		String ItemDescription=request.getParameter("description");
-		String ItemID=request.getParameter("itemid");
+//		String ItemID=request.getParameter("itemid");
 		Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
-
-		String ItemOwner= (String) request.getSession().getAttribute("name");
+		String picture;
+		if(filePart != null) { picture="1";} else {picture ="0";}
+		//		"name", "owner(userID)", "category", "item_value", "item_condition", "description", "picture"
+		String[] data= {ItemName,user.getUserID(),ItemCategory,ItemValue,ItemCondition,ItemDescription,picture};
+		String ItemID=mod.addItem(data);
+		
+//		String ItemOwner= (String) request.getSession().getAttribute("name");
 //		String ItemOwnerID= (String) request.getSession().getAttribute("id");
 		
 		if(filePart != null) {
@@ -95,10 +99,10 @@ public class AddItemHandlerServlet extends HttpServlet {
 		    
 		    //show list of pictures
 		    System.out.println("file path at : " +file.getPath() );
-		}
+		} 
 		
-		StringBuffer msg=new StringBuffer("<h1>You  added a new item:</h1>");
-		msg.append("item Owner: " + ItemOwner+ "<br>");
+		StringBuffer msg=new StringBuffer("<h1>You added a new item:</h1>");
+		msg.append("item Owner: " + user.getUserName()+ "<br>");
 		msg.append("item name: " + ItemName+ "<br>");
 		msg.append("item category: " + ItemCategory+ "<br>");
 		msg.append("item value: " + ItemValue+ "<br>");

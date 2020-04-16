@@ -17,6 +17,6 @@ Condition:<select class="" name="condition">
 </select><br>
 Description:<input type="text" name="description"><br>
 <input type="file" name="file" value="explore" />
-ItemId:<input type="text" name="itemid"><br>
+
 <input type="submit" value="submit"> <input type="reset" value="reset">
 </form>
