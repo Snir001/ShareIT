@@ -22,7 +22,7 @@ public class Model {
 	//##################################################################################################################################################
 	//
 	//##################################################################################################################################################
-	public Users login(String user_name, String password) {
+	public Users login(String user_name, String password) { // TODO: check if userName exists
 		Users user = new Users();
 		try {
 			// Create a statement
@@ -51,22 +51,21 @@ public class Model {
 
 	//##################################################################################################################################################
 	public String addUser(Users user) {
-		System.out.println("in addUser");
 		String userID = null;
 		String[] data = userToList(user);
 		try {
 			Statement myStmt = myCon.createStatement();
 			
-			String doubleCheck = "SELECT COUNT(1) FROM table_name WHERE userID = " + user.getUserID();
-			ResultSet myRs = myStmt.executeQuery(doubleCheck);
-			String isDouble = myRs.getString("userID");
-			isDouble = "0"; // TODO: delete it
+			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user.getUserName() + "'";
+			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
+			System.out.println("1. before results");
 			
-			if(isDouble == "0") {
+			if(myDoubleRs.next() == false) { // if no such user name in dataBase
 				String query = addQuery("users", users_columns, data);
-				String getID = "SELECT userID FROM items ORDER BY userID DESC LIMIT 1";
+				System.out.println(query);
+				String getID = "SELECT userID FROM users ORDER BY userID DESC LIMIT 1";
 				myStmt.executeUpdate(query);
-				myRs = myStmt.executeQuery(getID);
+				ResultSet myRs = myStmt.executeQuery(getID);
 				while (myRs.next()) {
 					userID =  myRs.getString("userID");
 				}
@@ -105,7 +104,7 @@ public class Model {
 	//##################################################################################################################################################
 	public String addRequest(Requests request) {
 		String requestID = null;
-		String[] data = requestsToList(request);
+		String[] data = requestToList(request);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
@@ -124,11 +123,12 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	public boolean editUser(String columns[], String data[], String userID) {
+	public boolean editUser(Users user) {
+		String[] data = userToList(user);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
-			String query = editQuery("users", "userID", columns, data, userID);
+			String query = editQuery("users", "userID", users_columns, data, user.getUserID());
 			myStmt.executeQuery(query);
 			return true;
 		}
@@ -138,11 +138,12 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	public boolean editItem(String columns[], String data[], String itemID) {
+	public boolean editItem(Items item) {
+		String[] data = itemToList(item);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
-			String query = editQuery("items", "itemID", columns, data, itemID);
+			String query = editQuery("items", "itemID", items_columns, data, item.getItemID());
 			myStmt.executeQuery(query);
 			return true;
 		}
@@ -152,11 +153,12 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	public boolean editRequest(String columns[], String data[], String requestID) {
+	public boolean editRequest(Requests request) {
+		String[] data = requestToList(request);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
-			String query = editQuery("requests", "requestID", columns, data, requestID);
+			String query = editQuery("requests", "requestID", requests_columns, data, request.getRequestID());
 			myStmt.executeQuery(query);
 			return true;
 		}
@@ -201,7 +203,7 @@ public class Model {
 		return queryA;
 	}
 	//##################################################################################################################################################
-	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {
+	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {// TODO: edit by item/user/req
 		String query = "UPDATE `" + TableName + "` SET ";
 		int i;
 		for (i = 0; i < data.length - 1; i++) {
@@ -210,34 +212,36 @@ public class Model {
 		query += columns[i] + " = '" + data[i] + "'" + " WHERE " + TableName +"." + TableKey + " = " + index;
 		return query;
 	}
+	//##################################################################################################################################################
 	private String[] userToList(Users user) {
 		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
 		Object[] functions = {user.getLastName(), user.getFirstName(), user.getUserName(), user.getPassword(), user.getMail(), user.getCity(), user.getAddress(), user.getPhone(), user.getGender(), user.getPrivileges()};
-		for (int i = 0; i <= data.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			data[i] = (String) functions[i];
 		}
 		System.out.println("data list: " + data);
 		return data;
 	}
+	//##################################################################################################################################################
 	private String[] itemToList(Items item) {
 		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
 		Object[] functions = {item.getName(), item.getOwnerID(), item.getCategory(), item.getItemValue(), item.getCondition(), item.getDecription(), item.getPicture()};
-		for (int i = 0; i <= data.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			data[i] = (String) functions[i];
 		}
 		System.out.println("data list: " + data);
 		return data;
 	}
-	private String[] requestsToList(Requests request) {
+	//##################################################################################################################################################
+	private String[] requestToList(Requests request) {
 		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"itemID", "owner", "borrower", "period", "date", "response"};
 		Object[] functions = {request.getItemID(), request.getOwnerID(), request.getBorrowerID(), request.getPeriod(), request.getDate(), request.getResponse()};
-		for (int i = 0; i <= data.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			data[i] = (String) functions[i];
 		}
 		System.out.println("data list: " + data);
 		return data;
 	}
-	
 	// TODO: Items[] getUserItems(String UserID)
 	//##################################################################################################################################################
 	//
@@ -263,6 +267,14 @@ public class Model {
 	//##################################################################################################################################################
 	//
 	// TODO: Requests[] getRequestsList(String requestID)
+	//##################################################################################################################################################
+	//
+	//##################################################################################################################################################
+	// TODO: Items getItemByID(String itemID)
+	//##################################################################################################################################################
+	//
+	//##################################################################################################################################################	
+	// TODO: Items[] getItemsByUserID(String userID)
 	//##################################################################################################################################################
 	//
 	//##################################################################################################################################################	
