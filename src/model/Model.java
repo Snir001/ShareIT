@@ -6,7 +6,7 @@ public class Model {
 	Connection myCon;
 	String[] users_columns = {"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
 	String[] items_columns = {"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
-	String[] requests_columns = {"itemID", "owner", "borrower", "period", "response"};
+	String[] requests_columns = {"itemID", "owner", "borrower", "period", "date", "response"};
 	
 	public Model() {
 		try {
@@ -51,27 +51,40 @@ public class Model {
 
 	//##################################################################################################################################################
 	public String addUser(Users user) {
+		System.out.println("in addUser");
 		String userID = null;
+		String[] data = userToList(user);
 		try {
 			Statement myStmt = myCon.createStatement();
-			String[] data = userToList(user);
-			String query = addQuery("users", users_columns, data);
-			String getID = "SELECT userID FROM items ORDER BY userID DESC LIMIT 1";
-			myStmt.executeUpdate(query);
-			ResultSet myRs = myStmt.executeQuery(getID);
-			while (myRs.next()) {
-				userID =  myRs.getString("userID");
+			
+			String doubleCheck = "SELECT COUNT(1) FROM table_name WHERE userID = " + user.getUserID();
+			ResultSet myRs = myStmt.executeQuery(doubleCheck);
+			String isDouble = myRs.getString("userID");
+			isDouble = "0"; // TODO: delete it
+			
+			if(isDouble == "0") {
+				String query = addQuery("users", users_columns, data);
+				String getID = "SELECT userID FROM items ORDER BY userID DESC LIMIT 1";
+				myStmt.executeUpdate(query);
+				myRs = myStmt.executeQuery(getID);
+				while (myRs.next()) {
+					userID =  myRs.getString("userID");
+				}
+				return userID;
 			}
-			return userID;
+			else
+				return "-1";
+			
 		}
 		catch (Exception  exc){
 			exc.printStackTrace();
-			return "0";
+			return "-2";
 		}
 	}
 	//##################################################################################################################################################
-	public String addItem(String data[]) {
+	public String addItem(Items item) {
 		String itemID = null;
+		String[] data = itemToList(item);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
@@ -90,8 +103,9 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	public String addRequest(String data[]) {
+	public String addRequest(Requests request) {
 		String requestID = null;
+		String[] data = requestsToList(request);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
@@ -199,7 +213,25 @@ public class Model {
 	private String[] userToList(Users user) {
 		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
 		Object[] functions = {user.getLastName(), user.getFirstName(), user.getUserName(), user.getPassword(), user.getMail(), user.getCity(), user.getAddress(), user.getPhone(), user.getGender(), user.getPrivileges()};
-		for (int i = 0; i <= 10; i++) {
+		for (int i = 0; i <= data.length; i++) {
+			data[i] = (String) functions[i];
+		}
+		System.out.println("data list: " + data);
+		return data;
+	}
+	private String[] itemToList(Items item) {
+		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
+		Object[] functions = {item.getName(), item.getOwnerID(), item.getCategory(), item.getItemValue(), item.getCondition(), item.getDecription(), item.getPicture()};
+		for (int i = 0; i <= data.length; i++) {
+			data[i] = (String) functions[i];
+		}
+		System.out.println("data list: " + data);
+		return data;
+	}
+	private String[] requestsToList(Requests request) {
+		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"itemID", "owner", "borrower", "period", "date", "response"};
+		Object[] functions = {request.getItemID(), request.getOwnerID(), request.getBorrowerID(), request.getPeriod(), request.getDate(), request.getResponse()};
+		for (int i = 0; i <= data.length; i++) {
 			data[i] = (String) functions[i];
 		}
 		System.out.println("data list: " + data);
