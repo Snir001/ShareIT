@@ -67,16 +67,16 @@ public class AddItemHandlerServlet extends HttpServlet {
 //		String ItemID=request.getParameter("itemid");
 		Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
 		String picture;
-		if(filePart != null) { picture="1";} else {picture ="0";}
+		if(filePart.getSize() != 0) { picture="1";} else {picture ="0";}
 		//		"name", "owner(userID)", "category", "item_value", "item_condition", "description", "picture"
 		String[] data= {ItemName,user.getUserID(),ItemCategory,ItemValue,ItemCondition,ItemDescription,picture};
 		String ItemID=mod.addItem(data);
+		//TODO: check if all fields have the right type
+		//TODO: use mod.addItem(item object)
 		
-//		String ItemOwner= (String) request.getSession().getAttribute("name");
-//		String ItemOwnerID= (String) request.getSession().getAttribute("id");
 		
-		if(filePart != null) {
-		 
+		if(picture.equals("1")) {
+			System.out.println("we have file");
 		    String fileName = getSubmittedFileName(filePart); // MSIE fix.
 		    InputStream fileContent = filePart.getInputStream();
 		    

@@ -34,22 +34,24 @@ public class ProfileServlet extends HttpServlet {
 		request.setAttribute("title","Profile");
 
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		HttpSession session=request.getSession(false);  
-		model.Users user=(model.Users)session.getAttribute("user");
-		if(user!=null){
-			
-
-			String name=(String)session.getAttribute("name");  
-			request.setAttribute("name",name);
-			request.setAttribute("good","yes");
-			request.setAttribute("page","ProfileDet.jsp");
-			
-			System.out.println("Hello, "+name+" Welcome to Profile");
-			System.out.println("id is: " + session.getId());
+		HttpSession session=request.getSession(false); 
+		if(session==null){
+			request.setAttribute("page","content/Login.jsp");
 		}  
 		else 
 		{  
-			request.setAttribute("page","content/Login.jsp");
+			model.Users user=(model.Users)session.getAttribute("user");
+			if(user==null) {
+				request.setAttribute("page","content/Login.jsp");
+			} else {
+				String name=(String)session.getAttribute("name");  
+				request.setAttribute("name",name);
+				request.setAttribute("good","yes");
+				request.setAttribute("page","ProfileDet.jsp");
+				
+				System.out.println("Hello, "+name+" Welcome to Profile");
+				System.out.println("id is: " + session.getId());
+			}
 
 		}  
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  

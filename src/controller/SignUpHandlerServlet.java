@@ -46,7 +46,7 @@ public class SignUpHandlerServlet extends HttpServlet {
 		model.Users newUser=new model.Users();
 		
 		//get new user parameters
-		newUser.setUserName(request.getParameter("userName"));
+		newUser.setUserName(request.getParameter("user_name"));
 		newUser.setFirstName(request.getParameter("first_name"));
 		newUser.setLastName(request.getParameter("last_name"));
 		newUser.setPassword(request.getParameter("password"));
@@ -80,6 +80,7 @@ Phone:<input type="text" name="phone"><br>
 		
 		StringBuffer msg=new StringBuffer("<h1>You signed up:</h1><br>");
 		if(userId != null) {
+			//TODO: function return negative if there is an error
 			msg.append("your id is :"+userId);
 		} else {
 			msg.append("somthing went wrong, try different userid"+userId);
