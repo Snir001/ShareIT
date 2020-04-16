@@ -23,7 +23,6 @@ public class MyItemsServlet extends HttpServlet {
      */
     public MyItemsServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -33,11 +32,13 @@ public class MyItemsServlet extends HttpServlet {
 		response.setContentType("text/html");  
 		PrintWriter out=response.getWriter();  
 		request.setAttribute("title","My Items");
-
+		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		HttpSession session=request.getSession(false);  
-		
-		if(session.getAttribute("name")!=null){  
-			String name=(String)session.getAttribute("name");  
+		model.Users user=(model.Users)session.getAttribute("user");
+		if(user!=null){
+			
+			String name=user.getUserName();  
+			request.setAttribute("items", mod.getItemsByUserId(user.getUserID()));
 			request.setAttribute("name",name);
 			request.setAttribute("page","content/MyItems.jsp");
 		}  
@@ -53,7 +54,6 @@ public class MyItemsServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
