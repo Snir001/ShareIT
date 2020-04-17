@@ -317,7 +317,7 @@ public class Model {
 	//
 	//##################################################################################################################################################
 	Items getItemByID(String itemID) {
-		String query = "SELECT * FROM items Where itemID =" + itemID;
+		String query = "SELECT * FROM items Where itemID ='" + itemID + "'";
 		Items item = new Items();
 		try {
 			Statement myStmt = myCon.createStatement();
@@ -340,10 +340,33 @@ public class Model {
 			return null;
 		}
 	}
-	//##################################################################################################################################################
-	//
-	//##################################################################################################################################################	
-	// TODO: Items[] getItemsByUserID(String userID)
+	List<Items> getItemsByUserID(String userID) {
+		String query = "SELECT * FROM items Where owner ='" + userID + "'";
+		Items item = new Items();
+		List<Items> itemsList = new ArrayList<Items>();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				item.setItemID(myRs.getString("itemID"));
+				item.setName(myRs.getString("name"));
+				item.setOwnerID(myRs.getString("owner"));
+				item.setCategory(myRs.getString("category"));
+				item.setItemValue(myRs.getString("item_value"));
+				item.setCondition(myRs.getString("item_condition"));
+				item.setDecription(myRs.getString("description"));
+				item.setPicture(myRs.getString("picture"));
+				if (!itemsList.equals(item))
+					itemsList.add(item);
+			}
+			return itemsList;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################
 	//
 	//##################################################################################################################################################	
