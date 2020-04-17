@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -32,8 +33,13 @@ public class ResultsServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
 		
+		model.Model mod = (model.Model)getServletContext().getAttribute("model");
+
 		String search=request.getParameter("search");
 		request.setAttribute("search", search);
+//		List<Items> itemSearch(String search_query)
+		List<model.Items> results=mod.itemSearch(search);
+		request.setAttribute("results", results);
 		//TODO get search results and send them to jsp
 		
 		request.setAttribute("title", "Results");
