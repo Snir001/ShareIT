@@ -1,5 +1,6 @@
 package model;
 import java.sql.*;
+import java.util.*;
 
 
 public class Model {
@@ -20,30 +21,76 @@ public class Model {
 	}
 	// TODO: Items itemSearch(string)
 	//##################################################################################################################################################
-	//
-	//##################################################################################################################################################
-	public Users login(String user_name, String password) { // TODO: check if userName exists
-		Users user = new Users();
+	public List<Items> itemSearch(String search_query) {
+		Items item = new Items();
+		String queryA = "SELECT * FROM items WHERE name LIKE '%" + search_query + "%'";
+		String queryB = "SELECT * FROM items WHERE description LIKE '%" + search_query + "%'";
+		List<Items> itemsList = new ArrayList<Items>();
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			// Execute SQL query
-			ResultSet myRs = myStmt.executeQuery("SELECT * FROM users WHERE user_name ='" + user_name + "' AND password = '" + password +"'");
+			ResultSet myRs = myStmt.executeQuery(queryA);
 			// Process the result set
 			while (myRs.next()) {
-				user.setUserID(myRs.getString("userID"));
-				user.setLastName(myRs.getString("last_name"));
-				user.setFirstName(myRs.getString("first_name"));
-				user.setUserName(myRs.getString("user_name"));
-				user.setPassword(myRs.getString("password"));
-				user.setMail(myRs.getString("email"));
-				user.setAddress(myRs.getString("address"));
-				user.setPhone(myRs.getString("phone"));
-				user.setGender(myRs.getString("gender"));
-				user.setPrivileges(myRs.getString("privileges"));
-			}	
+				item.setItemID(myRs.getString("itemID"));
+				item.setName(myRs.getString("name"));
+				item.setOwnerID(myRs.getString("owner"));
+				item.setCategory(myRs.getString("category"));
+				item.setItemValue(myRs.getString("item_value"));
+				item.setCondition(myRs.getString("item_condition"));
+				item.setDecription(myRs.getString("description"));
+				item.setPicture(myRs.getString("picture"));
+				if (!itemsList.equals(item))
+					itemsList.add(item);
+			}
+			myRs = myStmt.executeQuery(queryB);
+			// Process the result set
+			while (myRs.next()) {
+				item.setItemID(myRs.getString("itemID"));
+				item.setName(myRs.getString("name"));
+				item.setOwnerID(myRs.getString("owner"));
+				item.setCategory(myRs.getString("category"));
+				item.setItemValue(myRs.getString("item_value"));
+				item.setCondition(myRs.getString("item_condition"));
+				item.setDecription(myRs.getString("description"));
+				item.setPicture(myRs.getString("picture"));
+				if (!itemsList.equals(item))
+					itemsList.add(item);
+			}
 		}
 		catch (Exception  exc){
+			exc.printStackTrace();
+		}
+
+		return itemsList;
+	}
+	//##################################################################################################################################################
+	public Users login(String user_name, String password) { // TODO: check if userName exists
+		Users user = new Users();
+		try {
+			Statement myStmt = myCon.createStatement();	
+			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user_name + "'";
+			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
+			
+			if(myDoubleRs.next()) { // if there is such user name in dataBase
+				ResultSet myRs = myStmt.executeQuery("SELECT * FROM users WHERE user_name ='" + user_name + "' AND password = '" + password +"'");
+				while (myRs.next()) {
+					user.setUserID(myRs.getString("userID"));
+					user.setLastName(myRs.getString("last_name"));
+					user.setFirstName(myRs.getString("first_name"));
+					user.setUserName(myRs.getString("user_name"));
+					user.setPassword(myRs.getString("password"));
+					user.setMail(myRs.getString("email"));
+					user.setAddress(myRs.getString("address"));
+					user.setPhone(myRs.getString("phone"));
+					user.setGender(myRs.getString("gender"));
+					user.setPrivileges(myRs.getString("privileges"));
+				}
+			}
+		}
+		catch (Exception  exc){
+			System.out.println("in catch");
 			exc.printStackTrace();
 		}
 		return user;
@@ -58,7 +105,6 @@ public class Model {
 			
 			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user.getUserName() + "'";
 			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
-			System.out.println("1. before results");
 			
 			if(myDoubleRs.next() == false) { // if no such user name in dataBase
 				String query = addQuery("users", users_columns, data);
@@ -270,7 +316,30 @@ public class Model {
 	//##################################################################################################################################################
 	//
 	//##################################################################################################################################################
-	// TODO: Items getItemByID(String itemID)
+	Items getItemByID(String itemID) {
+		String query = "SELECT * FROM items Where itemID =" + itemID;
+		Items item = new Items();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				item.setItemID(myRs.getString("itemID"));
+				item.setName(myRs.getString("name"));
+				item.setOwnerID(myRs.getString("owner"));
+				item.setCategory(myRs.getString("category"));
+				item.setItemValue(myRs.getString("item_value"));
+				item.setCondition(myRs.getString("item_condition"));
+				item.setDecription(myRs.getString("description"));
+				item.setPicture(myRs.getString("picture"));
+			}
+			return item;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################
 	//
 	//##################################################################################################################################################	
