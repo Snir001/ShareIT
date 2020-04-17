@@ -23,47 +23,33 @@ public class Model {
 	//##################################################################################################################################################
 	public List<Items> itemSearch(String search_query) {
 		Items item = new Items();
-		String queryA = "SELECT * FROM items WHERE name LIKE '%" + search_query + "%'";
-		String queryB = "SELECT * FROM items WHERE description LIKE '%" + search_query + "%'";
+		String query = "SELECT * FROM items";
 		List<Items> itemsList = new ArrayList<Items>();
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			// Execute SQL query
-			ResultSet myRs = myStmt.executeQuery(queryA);
+			ResultSet myRs = myStmt.executeQuery(query);
 			// Process the result set
 			while (myRs.next()) {
-				item.setItemID(myRs.getString("itemID"));
-				item.setName(myRs.getString("name"));
-				item.setOwnerID(myRs.getString("owner"));
-				item.setCategory(myRs.getString("category"));
-				item.setItemValue(myRs.getString("item_value"));
-				item.setCondition(myRs.getString("item_condition"));
-				item.setDecription(myRs.getString("description"));
-				item.setPicture(myRs.getString("picture"));
-				if (!itemsList.equals(item))
-					itemsList.add(item);
+				if (myRs.getString("name").contains(search_query) || myRs.getString("description").contains(search_query)) {
+					item.setItemID(myRs.getString("itemID"));
+					item.setName(myRs.getString("name"));
+					item.setOwnerID(myRs.getString("owner"));
+					item.setCategory(myRs.getString("category"));
+					item.setItemValue(myRs.getString("item_value"));
+					item.setCondition(myRs.getString("item_condition"));
+					item.setDecription(myRs.getString("description"));
+					item.setPicture(myRs.getString("picture"));	
+				}
 			}
-			myRs = myStmt.executeQuery(queryB);
-			// Process the result set
-			while (myRs.next()) {
-				item.setItemID(myRs.getString("itemID"));
-				item.setName(myRs.getString("name"));
-				item.setOwnerID(myRs.getString("owner"));
-				item.setCategory(myRs.getString("category"));
-				item.setItemValue(myRs.getString("item_value"));
-				item.setCondition(myRs.getString("item_condition"));
-				item.setDecription(myRs.getString("description"));
-				item.setPicture(myRs.getString("picture"));
-				if (!itemsList.equals(item))
-					itemsList.add(item);
-			}
+			System.out.println("end");
+			return itemsList;
 		}
 		catch (Exception  exc){
 			exc.printStackTrace();
+			return null;
 		}
-
-		return itemsList;
 	}
 	//##################################################################################################################################################
 	public Users login(String user_name, String password) { // TODO: check if userName exists
@@ -74,18 +60,20 @@ public class Model {
 			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
 			
 			if(myDoubleRs.next()) { // if there is such user name in dataBase
-				ResultSet myRs = myStmt.executeQuery("SELECT * FROM users WHERE user_name ='" + user_name + "' AND password = '" + password +"'");
+				ResultSet myRs = myStmt.executeQuery("SELECT * FROM users");
 				while (myRs.next()) {
-					user.setUserID(myRs.getString("userID"));
-					user.setLastName(myRs.getString("last_name"));
-					user.setFirstName(myRs.getString("first_name"));
-					user.setUserName(myRs.getString("user_name"));
-					user.setPassword(myRs.getString("password"));
-					user.setMail(myRs.getString("email"));
-					user.setAddress(myRs.getString("address"));
-					user.setPhone(myRs.getString("phone"));
-					user.setGender(myRs.getString("gender"));
-					user.setPrivileges(myRs.getString("privileges"));
+					if (myRs.getString("user_name").equals(user_name) && myRs.getString("password").equals(password)){
+						user.setUserID(myRs.getString("userID"));
+						user.setLastName(myRs.getString("last_name"));
+						user.setFirstName(myRs.getString("first_name"));
+						user.setUserName(myRs.getString("user_name"));
+						user.setPassword(null);
+						user.setMail(myRs.getString("email"));
+						user.setAddress(myRs.getString("address"));
+						user.setPhone(myRs.getString("phone"));
+						user.setGender(myRs.getString("gender"));
+						user.setPrivileges(myRs.getString("privileges"));
+					}
 				}
 			}
 		}
@@ -128,12 +116,13 @@ public class Model {
 	}
 	//##################################################################################################################################################
 	public String addItem(Items item) {
-		String itemID = null;
+		String itemID = null;	
 		String[] data = itemToList(item);
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = addQuery("items", items_columns, data);
+			System.out.println("preparty");
 			String getID = "SELECT itemID FROM items ORDER BY itemID DESC LIMIT 1";
 			myStmt.executeUpdate(query);
 			ResultSet myRs = myStmt.executeQuery(getID);
@@ -245,7 +234,6 @@ public class Model {
 		}
 		queryA += "'"+ data[i] + "'";
 		queryA += ")";
-		System.out.println("in Model.addQuaery:" + queryA);
 		return queryA;
 	}
 	//##################################################################################################################################################
@@ -270,22 +258,20 @@ public class Model {
 	}
 	//##################################################################################################################################################
 	private String[] itemToList(Items item) {
-		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
+		String[] data = {"", "", "", "", "", "", ""}; //{"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
 		Object[] functions = {item.getName(), item.getOwnerID(), item.getCategory(), item.getItemValue(), item.getCondition(), item.getDecription(), item.getPicture()};
 		for (int i = 0; i < data.length; i++) {
 			data[i] = (String) functions[i];
 		}
-		System.out.println("data list: " + data);
 		return data;
 	}
 	//##################################################################################################################################################
 	private String[] requestToList(Requests request) {
-		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"itemID", "owner", "borrower", "period", "date", "response"};
+		String[] data = {"", "", "", "", "", ""}; //{"itemID", "owner", "borrower", "period", "date", "response"};
 		Object[] functions = {request.getItemID(), request.getOwnerID(), request.getBorrowerID(), request.getPeriod(), request.getDate(), request.getResponse()};
 		for (int i = 0; i < data.length; i++) {
 			data[i] = (String) functions[i];
 		}
-		System.out.println("data list: " + data);
 		return data;
 	}
 	// TODO: Items[] getUserItems(String UserID)
