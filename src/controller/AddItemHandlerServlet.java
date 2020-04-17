@@ -74,6 +74,7 @@ public class AddItemHandlerServlet extends HttpServlet {
 //		String[] data= {ItemName,user.getUserID(),ItemCategory,ItemValue,ItemCondition,ItemDescription,picture};
 		model.Items newItem=new model.Items();
 		newItem.setName(ItemName);
+		newItem.setOwnerID(user.getUserID());
 		newItem.setCategory(ItemCategory);
 		newItem.setItemValue(ItemValue);
 		newItem.setCondition(ItemCondition);
@@ -116,7 +117,7 @@ public class AddItemHandlerServlet extends HttpServlet {
 		msg.append("item value: " + ItemValue+ "<br>");
 		msg.append("item condition: " + ItemCondition+ "<br>");
 		msg.append("item description: " + ItemDescription+ "<br>");
-		msg.append("item picture: " + ItemID + "<br>");
+		msg.append("item ID: " + ItemID + "<br>");
 		
 		request.setAttribute("page","content/FreeMessage.jsp");
 		request.setAttribute("title","Item Added");
