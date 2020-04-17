@@ -79,8 +79,7 @@ Phone:<input type="text" name="phone"><br>
  */
 		
 		StringBuffer msg=new StringBuffer("<h1>You signed up:</h1><br>");
-		if(userId != null) {
-			//TODO: function return negative if there is an error
+		if(Integer.parseInt(userId) >= 0) {
 			msg.append("your id is :"+userId);
 		} else {
 			msg.append("somthing went wrong, try different userid"+userId);
