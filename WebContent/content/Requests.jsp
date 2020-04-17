@@ -26,24 +26,38 @@ this is list of ${name} Requests
       <td>Done</td>
     </tr>
 	      <%
+	      String changeReqServlet="ChangeRequestResponeServlet";
 		  Requests[] requests=(Requests[])request.getAttribute("requests");
+		  String status;
 		  for(int i=0;i<requests.length;i++) {
+			  if(requests[i].getResponse().equals("0")) {status="Waiting";}
+			  if(requests[i].getResponse().equals("1")) {status="Approved";}
+			  if(requests[i].getResponse().equals("2")) {status="Denyed";}
+			  if(requests[i].getResponse().equals("3")) {status="Done";}
+			  if(requests[i].getResponse().equals("4")) {status="Canceled";}
+
+			  else {status="Unknown";}
+
 			    out.println("<tr>");
-			    out.println("<td>"+requests[i].getItemID()+"</td>");
+			    out.println("<td><a href='ItemDetailsServlet?id="+requests[i].getItemID()+"'>"+requests[i].getItemID()+"</a></td>");
 			    out.println("<td>"+requests[i].getBorrowerID()+"</td>");
 			    out.println("<td>"+requests[i].getPeriod()+"</td>");
 			    out.println("<td>"+requests[i].getDate()+"</td>");
-			    out.println("<td>"+requests[i].getResponse()+"</td>");
+			    out.println("<td>"+status+"</td>");
 			    if(requests[i].getResponse().equals("0")){
-				    out.println("<td><a href='ApproveRequestServlet?req_id="+requests[i].getRequestID()+"'>V</a></td>");
-				    out.println("<td><a href='DenyRequestServlet?req_id="+requests[i].getRequestID()+"'>X</a></td>");
-				    out.println("<td></td>");
-
+				    out.println("<td><a href='"+changeReqServlet+"?req_id="+requests[i].getRequestID()+"&new_resp=1'>V</a></td>");
+				    out.println("<td><a href='"+changeReqServlet+"?req_id="+requests[i].getRequestID()+"&new_resp=2'>X</a></td>");
+				    out.println("<td>-</td>");
 			    } else {
-				    out.println("<td></td>");
-				    out.println("<td></td>");
-				    out.println("<td><a href='DoneRequestServlet?req_id="+requests[i].getRequestID()+"'>X</a></td>");
-
+				    if(requests[i].getResponse().equals("1")){
+					    out.println("<td>-</td>");
+					    out.println("<td>-</td>");
+					    out.println("<td><a href='"+changeReqServlet+"?req_id="+requests[i].getRequestID()+"&new_resp=3'>D</a></td>");
+				    } else {
+				    out.println("<td>-</td>");
+				    out.println("<td>-</td>");
+				    out.println("<td>-</td>");
+				    }
 			    } 
 			    out.println("</tr>");
 		  }

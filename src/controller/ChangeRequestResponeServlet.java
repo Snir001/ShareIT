@@ -12,25 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class DoneRequestServlet
+ * Servlet implementation class ChangeRequestResponeServlet
  */
-@WebServlet("/DoneRequestServlet")
-public class DoneRequestServlet extends HttpServlet {
+@WebServlet("/ChangeRequestResponeServlet")
+public class ChangeRequestResponeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DoneRequestServlet() {
+    public ChangeRequestResponeServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html");  
 		PrintWriter out=response.getWriter();  
 		
@@ -38,6 +36,7 @@ public class DoneRequestServlet extends HttpServlet {
 		
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		model.Requests req=mod.getRequestById(request.getParameter("req_id"));
+		String newResp=request.getParameter("new_resp");
 		HttpSession session=request.getSession(false); 
 		if(session==null){
 			request.setAttribute("page","content/LoginFirst.jsp");
@@ -51,7 +50,7 @@ public class DoneRequestServlet extends HttpServlet {
 				String name=(String)session.getAttribute("name");  
 				request.setAttribute("name",name);
 				if(req.getOwnerID().equals(user.getUserID())) {
-					req.setResponse("3");
+					req.setResponse(newResp);
 					mod.editRequest(req);
 					request.setAttribute("message", "request done. item returned to his owner!");
 				} else {
