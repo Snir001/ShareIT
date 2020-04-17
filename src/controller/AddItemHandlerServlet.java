@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import model.Items;
+
 /**
  * Servlet implementation class AddItemHandlerServlet
  */
@@ -69,10 +71,16 @@ public class AddItemHandlerServlet extends HttpServlet {
 		String picture;
 		if(filePart.getSize() != 0) { picture="1";} else {picture ="0";}
 		//		"name", "owner(userID)", "category", "item_value", "item_condition", "description", "picture"
-		String[] data= {ItemName,user.getUserID(),ItemCategory,ItemValue,ItemCondition,ItemDescription,picture};
-		String ItemID=mod.addItem(data);
+//		String[] data= {ItemName,user.getUserID(),ItemCategory,ItemValue,ItemCondition,ItemDescription,picture};
+		model.Items newItem=new model.Items();
+		newItem.setName(ItemName);
+		newItem.setCategory(ItemCategory);
+		newItem.setItemValue(ItemValue);
+		newItem.setCondition(ItemCondition);
+		newItem.setDecription(ItemDescription);
+		newItem.setPicture(picture);
+		String ItemID=mod.addItem(newItem);
 		//TODO: check if all fields have the right type
-		//TODO: use mod.addItem(item object)
 		
 		
 		if(picture.equals("1")) {
