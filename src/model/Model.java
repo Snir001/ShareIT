@@ -27,7 +27,6 @@ public class Model {
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
-			System.out.println("0");
 			// Execute SQL query
 			ResultSet myRs = myStmt.executeQuery(query);
 			// Process the result set
@@ -79,7 +78,6 @@ public class Model {
 			}
 		}
 		catch (Exception  exc){
-			System.out.println("in catch");
 			exc.printStackTrace();
 		}
 		return user;
@@ -96,7 +94,6 @@ public class Model {
 			
 			if(myDoubleRs.next() == false) { // if no such user name in dataBase
 				String query = addQuery("users", users_columns, data);
-				System.out.println(query);
 				String getID = "SELECT userID FROM users ORDER BY userID DESC LIMIT 1";
 				myStmt.executeUpdate(query);
 				ResultSet myRs = myStmt.executeQuery(getID);
@@ -122,7 +119,6 @@ public class Model {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = addQuery("items", items_columns, data);
-			System.out.println("preparty");
 			String getID = "SELECT itemID FROM items ORDER BY itemID DESC LIMIT 1";
 			myStmt.executeUpdate(query);
 			ResultSet myRs = myStmt.executeQuery(getID);
@@ -144,7 +140,6 @@ public class Model {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = addQuery("requests", requests_columns, data);
-			System.out.println(query);
 			String getID = "SELECT requestID FROM requests ORDER BY requestID DESC LIMIT 1";
 			myStmt.executeUpdate(query);
 			ResultSet myRs = myStmt.executeQuery(getID);
@@ -165,7 +160,7 @@ public class Model {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = editQuery("users", "userID", users_columns, data, user.getUserID());
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			return true;
 		}
 		catch (Exception  exc){
@@ -180,7 +175,7 @@ public class Model {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = editQuery("items", "itemID", items_columns, data, item.getItemID());
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			return true;
 		}
 		catch (Exception  exc){
@@ -195,7 +190,7 @@ public class Model {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = editQuery("requests", "requestID", requests_columns, data, request.getRequestID());
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			return true;
 		}
 		catch (Exception  exc){
@@ -534,7 +529,6 @@ public class Model {
 		for (int i = 0; i < data.length; i++) {
 			data[i] = (String) functions[i];
 		}
-		System.out.println("data list: " + data);
 		return data;
 	}
 	//##################################################################################################################################################
