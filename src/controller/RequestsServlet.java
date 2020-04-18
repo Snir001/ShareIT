@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,6 +39,8 @@ public class RequestsServlet extends HttpServlet {
 		model.Users user=(model.Users)session.getAttribute("user");
 		if(user!=null){
 			String name=(String)session.getAttribute("name");  
+			List<model.Requests> req=mod.getSentRequestsByUserID(user.getUserID());
+			request.setAttribute("requests", req);
 			request.setAttribute("name",name);
 			request.setAttribute("page","content/Requests.jsp");
 		}  

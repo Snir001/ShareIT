@@ -15,15 +15,7 @@ this is list of ${name} Offers
       <th>Status</th>
       <th>Cancel</th>
     </tr>
-    <tr>
-      <td>Item ID</td>
-      <td>Owner</td>
-      <td>Period</td>
-      <td>Offer date</td>
-      <td>Status</td>
-      <td>Cancel</td>
 
-    </tr>
 	      <%
 	      model.Model mod = (model.Model)getServletContext().getAttribute("model");
 	      String changeReqServlet="ChangeRequestResponeServlet";
