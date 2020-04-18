@@ -27,11 +27,18 @@ public class Model {
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
+			System.out.println("0");
 			// Execute SQL query
 			ResultSet myRs = myStmt.executeQuery(query);
 			// Process the result set
+			System.out.println("1");
 			while (myRs.next()) {
+				System.out.println("2");
+				System.out.println(myRs.getString("name").contains(search_query));
+				System.out.println(myRs.getString("description").contains(search_query));
+				System.out.println("**************************************************************");
 				if (myRs.getString("name").contains(search_query) || myRs.getString("description").contains(search_query)) {
+					item = new Items();
 					item.setItemID(myRs.getString("itemID"));
 					item.setName(myRs.getString("name"));
 					item.setOwnerID(myRs.getString("owner"));
@@ -40,12 +47,14 @@ public class Model {
 					item.setCondition(myRs.getString("item_condition"));
 					item.setDecription(myRs.getString("description"));
 					item.setPicture(myRs.getString("picture"));	
+					System.out.println("3");
 				}
 			}
 			System.out.println("end");
 			return itemsList;
 		}
 		catch (Exception  exc){
+			System.out.println("in exc");
 			exc.printStackTrace();
 			return null;
 		}
@@ -217,59 +226,6 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	private static String addQuery(String TableName, String columns[], String data[]) {
-		String queryA = "INSERT INTO `" + TableName + "` (";
-		int i, j;
-		for (i = 0; i < columns.length - 1; i++) {
-			queryA += columns[i] + ", ";
-		}
-		queryA += columns[i] + ") VALUES (";
-		for (j = 0; j < data.length - 1; j++) {
-			queryA += "'"+ data[j] + "', ";
-		}
-		queryA += "'"+ data[i] + "'";
-		queryA += ")";
-		return queryA;
-	}
-	//##################################################################################################################################################
-	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {// TODO: edit by item/user/req
-		String query = "UPDATE `" + TableName + "` SET ";
-		int i;
-		for (i = 0; i < data.length - 1; i++) {
-			query += columns[i] + " = '" + data[i] + "', ";
-		}
-		query += columns[i] + " = '" + data[i] + "'" + " WHERE " + TableName +"." + TableKey + " = " + index;
-		return query;
-	}
-	//##################################################################################################################################################
-	private String[] userToList(Users user) {
-		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
-		Object[] functions = {user.getLastName(), user.getFirstName(), user.getUserName(), user.getPassword(), user.getMail(), user.getCity(), user.getAddress(), user.getPhone(), user.getGender(), user.getPrivileges()};
-		for (int i = 0; i < data.length; i++) {
-			data[i] = (String) functions[i];
-		}
-		System.out.println("data list: " + data);
-		return data;
-	}
-	//##################################################################################################################################################
-	private String[] itemToList(Items item) {
-		String[] data = {"", "", "", "", "", "", ""}; //{"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
-		Object[] functions = {item.getName(), item.getOwnerID(), item.getCategory(), item.getItemValue(), item.getCondition(), item.getDecription(), item.getPicture()};
-		for (int i = 0; i < data.length; i++) {
-			data[i] = (String) functions[i];
-		}
-		return data;
-	}
-	//##################################################################################################################################################
-	private String[] requestToList(Requests request) {
-		String[] data = {"", "", "", "", "", ""}; //{"itemID", "owner", "borrower", "period", "date", "response"};
-		Object[] functions = {request.getItemID(), request.getOwnerID(), request.getBorrowerID(), request.getPeriod(), request.getDate(), request.getResponse()};
-		for (int i = 0; i < data.length; i++) {
-			data[i] = (String) functions[i];
-		}
-		return data;
-	}
-	//##################################################################################################################################################
 	public boolean removeUser(String userID) {
 		try {
 			Statement myStmt = myCon.createStatement();	
@@ -318,6 +274,7 @@ public class Model {
 			ResultSet myRs = myStmt.executeQuery(query);
 			
 			while (myRs.next()) {
+				user = new Users();
 				user.setUserID(myRs.getString("userID"));
 				user.setLastName(myRs.getString("last_name"));
 				user.setFirstName(myRs.getString("first_name"));
@@ -347,6 +304,7 @@ public class Model {
 			ResultSet myRs = myStmt.executeQuery(query);
 			
 			while (myRs.next()) {
+				item = new Items();
 				item.setItemID(myRs.getString("itemID"));
 				item.setName(myRs.getString("name"));
 				item.setOwnerID(myRs.getString("owner"));
@@ -374,6 +332,7 @@ public class Model {
 			ResultSet myRs = myStmt.executeQuery(query);
 			
 			while (myRs.next()) {
+				request = new Requests();
 				request.setRequestID(myRs.getString("requestID"));
 				request.setItemID(myRs.getString("itemID"));
 				request.setOwnerID(myRs.getString("owner"));
@@ -476,6 +435,7 @@ public class Model {
 			ResultSet myRs = myStmt.executeQuery(query);
 			
 			while (myRs.next()) {
+				item = new Items();
 				item.setItemID(myRs.getString("itemID"));
 				item.setName(myRs.getString("name"));
 				item.setOwnerID(myRs.getString("owner"));
@@ -504,6 +464,7 @@ public class Model {
 			ResultSet myRs = myStmt.executeQuery(query);
 			
 			while (myRs.next()) {
+				request = new Requests();
 				request.setRequestID(myRs.getString("requestID"));
 				request.setItemID(myRs.getString("itemID"));
 				request.setOwnerID(myRs.getString("owner"));
@@ -530,6 +491,7 @@ public class Model {
 			ResultSet myRs = myStmt.executeQuery(query);
 			
 			while (myRs.next()) {
+				request = new Requests();
 				request.setRequestID(myRs.getString("requestID"));
 				request.setItemID(myRs.getString("itemID"));
 				request.setOwnerID(myRs.getString("owner"));
@@ -545,6 +507,59 @@ public class Model {
 			exc.printStackTrace();
 			return null;
 		}
+	}
+	//##################################################################################################################################################
+	private static String addQuery(String TableName, String columns[], String data[]) {
+		String queryA = "INSERT INTO `" + TableName + "` (";
+		int i, j;
+		for (i = 0; i < columns.length - 1; i++) {
+			queryA += columns[i] + ", ";
+		}
+		queryA += columns[i] + ") VALUES (";
+		for (j = 0; j < data.length - 1; j++) {
+			queryA += "'"+ data[j] + "', ";
+		}
+		queryA += "'"+ data[i] + "'";
+		queryA += ")";
+		return queryA;
+	}
+	//##################################################################################################################################################
+	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {// TODO: edit by item/user/req
+		String query = "UPDATE `" + TableName + "` SET ";
+		int i;
+		for (i = 0; i < data.length - 1; i++) {
+			query += columns[i] + " = '" + data[i] + "', ";
+		}
+		query += columns[i] + " = '" + data[i] + "'" + " WHERE " + TableName +"." + TableKey + " = " + index;
+		return query;
+	}
+	//##################################################################################################################################################
+	private String[] userToList(Users user) {
+		String[] data = {"", "", "", "", "", "", "", "", "", ""}; //{"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
+		Object[] functions = {user.getLastName(), user.getFirstName(), user.getUserName(), user.getPassword(), user.getMail(), user.getCity(), user.getAddress(), user.getPhone(), user.getGender(), user.getPrivileges()};
+		for (int i = 0; i < data.length; i++) {
+			data[i] = (String) functions[i];
+		}
+		System.out.println("data list: " + data);
+		return data;
+	}
+	//##################################################################################################################################################
+	private String[] itemToList(Items item) {
+		String[] data = {"", "", "", "", "", "", ""}; //{"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
+		Object[] functions = {item.getName(), item.getOwnerID(), item.getCategory(), item.getItemValue(), item.getCondition(), item.getDecription(), item.getPicture()};
+		for (int i = 0; i < data.length; i++) {
+			data[i] = (String) functions[i];
+		}
+		return data;
+	}
+	//##################################################################################################################################################
+	private String[] requestToList(Requests request) {
+		String[] data = {"", "", "", "", "", ""}; //{"itemID", "owner", "borrower", "period", "date", "response"};
+		Object[] functions = {request.getItemID(), request.getOwnerID(), request.getBorrowerID(), request.getPeriod(), request.getDate(), request.getResponse()};
+		for (int i = 0; i < data.length; i++) {
+			data[i] = (String) functions[i];
+		}
+		return data;
 	}
 	//##################################################################################################################################################
 }
