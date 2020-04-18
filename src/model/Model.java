@@ -19,7 +19,6 @@ public class Model {
 		}
 		
 	}
-	// TODO: Items itemSearch(string)
 	//##################################################################################################################################################
 	public List<Items> itemSearch(String search_query) {
 		Items item = new Items();
@@ -83,7 +82,6 @@ public class Model {
 		}
 		return user;
 	}
-
 	//##################################################################################################################################################
 	public String addUser(Users user) {
 		String userID = null;
@@ -219,9 +217,6 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	// input: 
-	// output:
-	//##################################################################################################################################################
 	private static String addQuery(String TableName, String columns[], String data[]) {
 		String queryA = "INSERT INTO `" + TableName + "` (";
 		int i, j;
@@ -274,35 +269,156 @@ public class Model {
 		}
 		return data;
 	}
-	// TODO: Items[] getUserItems(String UserID)
 	//##################################################################################################################################################
-	//
-	// TODO: String removeQuery(String index)
+	public boolean removeUser(String userID) {
+		try {
+			Statement myStmt = myCon.createStatement();	
+			String query = "DELETE FROM users WHERE userID = " + userID;
+			myStmt.executeQuery(query);
+			return true;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return false;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: String getListQuery(String Table)
+	public boolean removeItem(String itemID) {
+		try {
+			Statement myStmt = myCon.createStatement();	
+			String query = "DELETE FROM items WHERE itemID = " + itemID;
+			myStmt.executeQuery(query);
+			return true;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return false;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: boolean removeUser(String userID)
+	public boolean removeRequest(String requestID) {
+		try {
+			Statement myStmt = myCon.createStatement();	
+			String query = "DELETE FROM requests WHERE requestID = " + requestID;
+			myStmt.executeQuery(query);
+			return true;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return false;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: boolean removeItem(String itemID)
+	public List<Users> getAllUsersList() {
+		String query = "SELECT * FROM users";
+		Users user = new Users();
+		List<Users> usersList = new ArrayList<Users>();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				user.setUserID(myRs.getString("userID"));
+				user.setLastName(myRs.getString("last_name"));
+				user.setFirstName(myRs.getString("first_name"));
+				user.setUserName(myRs.getString("user_name"));
+				user.setPassword(null);
+				user.setMail(myRs.getString("email"));
+				user.setAddress(myRs.getString("address"));
+				user.setPhone(myRs.getString("phone"));
+				user.setGender(myRs.getString("gender"));
+				user.setPrivileges(myRs.getString("privileges"));
+				usersList.add(user);
+			}
+			return usersList;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: boolean removeRequest(String requestID)
+	public List<Items> getAllItemsList() {
+		String query = "SELECT * FROM items";
+		Items item = new Items();
+		List<Items> itemsList = new ArrayList<Items>();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				item.setItemID(myRs.getString("itemID"));
+				item.setName(myRs.getString("name"));
+				item.setOwnerID(myRs.getString("owner"));
+				item.setCategory(myRs.getString("category"));
+				item.setItemValue(myRs.getString("item_value"));
+				item.setCondition(myRs.getString("item_condition"));
+				item.setDecription(myRs.getString("description"));
+				item.setPicture(myRs.getString("picture"));
+				itemsList.add(item);
+			}
+			return itemsList;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: Users[] getUserList(String userID)
+	public List<Requests> getAllRequestsList() {
+		String query = "SELECT * FROM requests";
+		Requests request = new Requests();
+		List<Requests> requestsList = new ArrayList<Requests>();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				request.setRequestID(myRs.getString("requestID"));
+				request.setItemID(myRs.getString("itemID"));
+				request.setOwnerID(myRs.getString("owner"));
+				request.setBorrowerID(myRs.getString("borrower"));
+				request.setPeriod(myRs.getString("period"));
+				request.setDate(myRs.getString("date"));
+				request.setResponse(myRs.getString("response"));
+				requestsList.add(request);
+			}
+			return requestsList;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: Items[] getItemsList(String itemID)
+	public Users getUserByID(String userID) {
+		String query = "SELECT * FROM users Where userID ='" + userID + "'";
+		Users user = new Users();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				user.setUserID(myRs.getString("userID"));
+				user.setLastName(myRs.getString("last_name"));
+				user.setFirstName(myRs.getString("first_name"));
+				user.setUserName(myRs.getString("user_name"));
+				user.setPassword(null);
+				user.setMail(myRs.getString("email"));
+				user.setAddress(myRs.getString("address"));
+				user.setPhone(myRs.getString("phone"));
+				user.setGender(myRs.getString("gender"));
+				user.setPrivileges(myRs.getString("privileges"));
+			}
+			return user;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################
-	//
-	// TODO: Requests[] getRequestsList(String requestID)
-	//##################################################################################################################################################
-	//
-	//##################################################################################################################################################
-	Items getItemByID(String itemID) {
+	public Items getItemByID(String itemID) {
 		String query = "SELECT * FROM items Where itemID ='" + itemID + "'";
 		Items item = new Items();
 		try {
@@ -326,7 +442,32 @@ public class Model {
 			return null;
 		}
 	}
-	List<Items> getItemsByUserID(String userID) {
+	//##################################################################################################################################################
+	public Requests getRequestByID(String requestID) {
+		String query = "SELECT * FROM requests Where requestID ='" + requestID + "'";
+		Requests request = new Requests();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				request.setRequestID(myRs.getString("requestID"));
+				request.setItemID(myRs.getString("itemID"));
+				request.setOwnerID(myRs.getString("owner"));
+				request.setBorrowerID(myRs.getString("borrower"));
+				request.setPeriod(myRs.getString("period"));
+				request.setDate(myRs.getString("date"));
+				request.setResponse(myRs.getString("response"));
+			}
+			return request;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
+	//##################################################################################################################################################
+	public List<Items> getItemsByUserID(String userID) {
 		String query = "SELECT * FROM items Where owner ='" + userID + "'";
 		Items item = new Items();
 		List<Items> itemsList = new ArrayList<Items>();
@@ -354,6 +495,56 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	//
+	public List<Requests> getRecievedRequestsByUserID(String userID) {
+		String query = "SELECT * FROM requests Where owner ='" + userID + "'";
+		Requests request = new Requests();
+		List<Requests> requestsList = new ArrayList<Requests>();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				request.setRequestID(myRs.getString("requestID"));
+				request.setItemID(myRs.getString("itemID"));
+				request.setOwnerID(myRs.getString("owner"));
+				request.setBorrowerID(myRs.getString("borrower"));
+				request.setPeriod(myRs.getString("period"));
+				request.setDate(myRs.getString("date"));
+				request.setResponse(myRs.getString("response"));
+				requestsList.add(request);
+			}
+			return requestsList;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
 	//##################################################################################################################################################	
+	public List<Requests> getSentRequestsByUserID(String userID) {
+		String query = "SELECT * FROM requests Where borrower ='" + userID + "'";
+		Requests request = new Requests();
+		List<Requests> requestsList = new ArrayList<Requests>();
+		try {
+			Statement myStmt = myCon.createStatement();
+			ResultSet myRs = myStmt.executeQuery(query);
+			
+			while (myRs.next()) {
+				request.setRequestID(myRs.getString("requestID"));
+				request.setItemID(myRs.getString("itemID"));
+				request.setOwnerID(myRs.getString("owner"));
+				request.setBorrowerID(myRs.getString("borrower"));
+				request.setPeriod(myRs.getString("period"));
+				request.setDate(myRs.getString("date"));
+				request.setResponse(myRs.getString("response"));
+				requestsList.add(request);
+			}
+			return requestsList;
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
+	//##################################################################################################################################################
 }
