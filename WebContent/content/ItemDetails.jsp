@@ -18,7 +18,6 @@ if(item.getPicture().equals("1")) {
 }
 out.print("<img src='" + pictureUrl + "' class='w3-round w3-padding-16' height='150' width='150'>");
 
-
+out.print("<a href='ReqestItemServlet?id="+item.getItemID()+"'>Request Item</a>");
 
 %>  
-<a href="ReqestItemServlet">Request Item</a>

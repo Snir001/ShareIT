@@ -46,6 +46,7 @@ public class ReqestItemServlet extends HttpServlet {
 			req.setItemID(itemId);
 			req.setPeriod("week");
 			req.setResponse("0");
+			req.setOwnerID(mod.getItemByID(itemId).getOwnerID());
 			mod.addRequest(req);
 			
 			request.setAttribute("message", "item requested seccesfully!");
