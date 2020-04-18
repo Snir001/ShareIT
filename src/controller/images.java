@@ -30,17 +30,17 @@ public class images extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String filename = request.getPathInfo().substring(1);
         String path=getServletContext().getInitParameter("upload_location")+filename;
-        
-        System.out.println("Path is : "+path);
-        
         File file = new File(path, filename+".jpg");
-        
-        System.out.println("file is : "+file.getPath());
-
+        if(!file.exists()) {
+        	 path=getServletContext().getInitParameter("upload_location")+"default";
+             file = new File(path, "default.jpg");
+        } 
         response.setHeader("Content-Type", getServletContext().getMimeType(filename));
         response.setHeader("Content-Length", String.valueOf(file.length()));
         response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
         Files.copy(file.toPath(), response.getOutputStream());
+
+
     }
 
 	/**
