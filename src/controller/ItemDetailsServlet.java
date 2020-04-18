@@ -13,14 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ItenDetailsServlet
  */
-@WebServlet("/ItenDetailsServlet")
-public class ItenDetailsServlet extends HttpServlet {
+@WebServlet("/ItemDetailsServlet")
+public class ItemDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ItenDetailsServlet() {
+    public ItemDetailsServlet() {
         super();
     }
 
@@ -33,10 +33,21 @@ public class ItenDetailsServlet extends HttpServlet {
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 
 		String itemId=request.getParameter("id");
-		request.setAttribute("item", mod.getItemById(itemId));
-		
+		model.Items item=(model.Items)mod.getItemByID(itemId);
+		if(item.getCategory()!=null) {
+			request.setAttribute("item", mod.getItemByID(itemId));
+			System.out.println("name: "+item.getName());
+			System.out.println("id: "+item.getItemID());
+			request.setAttribute("message", "you are in the item page");
+			request.setAttribute("page","content/ItemDetails.jsp");
+
+		} else {
+			request.setAttribute("message", "Item didnt found");
+			request.setAttribute("page","content/FreeMessage.jsp");
+
+		}
+
 		request.setAttribute("title", "Item Page");
-		request.setAttribute("page","content/Results.jsp");
 
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
         rd.forward(request, response); 

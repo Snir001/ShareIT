@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,7 +39,8 @@ public class MyItemsServlet extends HttpServlet {
 		if(user!=null){
 			
 			String name=user.getUserName();  
-			request.setAttribute("items", mod.getItemsByUserId(user.getUserID()));
+			List<model.Items> results=mod.getItemsByUserID(user.getUserID());
+			request.setAttribute("items", results);
 			request.setAttribute("name",name);
 			request.setAttribute("page","content/MyItems.jsp");
 		}  

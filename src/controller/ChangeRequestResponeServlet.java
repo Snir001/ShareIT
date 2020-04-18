@@ -35,7 +35,7 @@ public class ChangeRequestResponeServlet extends HttpServlet {
 		request.setAttribute("title","Request Approve");
 		
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		model.Requests req=mod.getRequestById(request.getParameter("req_id"));
+		model.Requests req=mod.getRequestByID(request.getParameter("req_id"));
 		String newResp=request.getParameter("new_resp");
 		HttpSession session=request.getSession(false); 
 		if(session==null){

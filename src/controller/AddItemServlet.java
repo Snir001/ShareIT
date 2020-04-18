@@ -33,9 +33,10 @@ public class AddItemServlet extends HttpServlet {
 		PrintWriter out=response.getWriter();  
 		request.setAttribute("title","New Item");
 
+		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		HttpSession session=request.getSession(false);  
-		
-		if(session.getAttribute("name")!=null){  
+		model.Users user=(model.Users)session.getAttribute("user");
+		if(user!=null){
 			String name=(String)session.getAttribute("name");  
 			request.setAttribute("name",name);
 			request.setAttribute("page","content/AddItem.jsp");

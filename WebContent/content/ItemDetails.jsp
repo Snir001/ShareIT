@@ -7,6 +7,8 @@ out.print("Item Owner: "+item.getOwnerID()+"<br>");
 out.print("Item Value: "+item.getItemValue()+"<br>");
 out.print("Item Condition: "+item.getCondition()+"<br>");
 out.print("Item Category: "+item.getCategory()+"<br>");
+out.print("Item Description: "+item.getDecription()+"<br>");
+
 String url=request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath()+"/images/";
 String pictureUrl;
 if(item.getPicture().equals("1")) {
