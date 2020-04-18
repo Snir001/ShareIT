@@ -39,7 +39,7 @@ public class RequestsServlet extends HttpServlet {
 		model.Users user=(model.Users)session.getAttribute("user");
 		if(user!=null){
 			String name=(String)session.getAttribute("name");  
-			List<model.Requests> req=mod.getSentRequestsByUserID(user.getUserID());
+			List<model.Requests> req=mod.getRecievedRequestsByUserID(user.getUserID());
 			request.setAttribute("requests", req);
 			request.setAttribute("name",name);
 			request.setAttribute("page","content/Requests.jsp");

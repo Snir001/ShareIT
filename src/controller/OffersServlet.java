@@ -39,7 +39,7 @@ public class OffersServlet extends HttpServlet {
 		model.Users user=(model.Users)session.getAttribute("user");
 		if(user!=null){
 			String name=(String)session.getAttribute("name");  
-			List<model.Requests> offers=mod.getRecievedRequestsByUserID(user.getUserID());
+			List<model.Requests> offers=mod.getSentRequestsByUserID(user.getUserID());
 			request.setAttribute("name",name);
 			
 			request.setAttribute("requests",offers);

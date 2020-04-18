@@ -2,8 +2,7 @@ this is list of ${name} Requests
 <%@page import="model.Requests"%>
 <%@page import="java.util.*"%>
 <div class="w3-container">
-  <h2>Striped Table</h2>
-  <p>The w3-striped class adds zebra-stripes to a table:</p>
+  <p>Pepole want this item from you</p>
 
   <table class="w3-table w3-striped">
     <tr>
@@ -18,6 +17,8 @@ this is list of ${name} Requests
     </tr>
 
 	      <%
+	      model.Model mod = (model.Model)getServletContext().getAttribute("model");
+
 	      String changeReqServlet="ChangeRequestResponeServlet";
 	      List<Requests> requests=(List<Requests>)request.getAttribute("requests");
 		  String status;
@@ -25,16 +26,17 @@ this is list of ${name} Requests
 		  for(int i=0;i<requests.size();i++) {
 			  req=requests.get(i);
 			  if(req.getResponse().equals("0")) {status="Waiting";}
-			  if(req.getResponse().equals("1")) {status="Approved";}
-			  if(req.getResponse().equals("2")) {status="Denyed";}
-			  if(req.getResponse().equals("3")) {status="Done";}
-			  if(req.getResponse().equals("4")) {status="Canceled";}
-
+			  else if(req.getResponse().equals("1")) {status="Approved";}
+			  else if(req.getResponse().equals("2")) {status="Denyed";}
+			  else if(req.getResponse().equals("3")) {status="Done";}
+			  else if(req.getResponse().equals("4")) {status="Canceled";}
 			  else {status="Unknown";}
+			  
+
 
 			    out.println("<tr>");
 			    out.println("<td><a href='ItemDetailsServlet?id="+req.getItemID()+"'>"+req.getItemID()+"</a></td>");
-			    out.println("<td>"+req.getBorrowerID()+"</td>");
+			    out.println("<td>"+mod.getUserByID(req.getBorrowerID()).getUserName()+"</td>");
 			    out.println("<td>"+req.getPeriod()+"</td>");
 			    out.println("<td>"+req.getDate()+"</td>");
 			    out.println("<td>"+status+"</td>");
@@ -57,4 +59,7 @@ this is list of ${name} Requests
 		  }
 		  %>
  	 </table>
+ 	 
+ 	  
+ 	 
 </div>

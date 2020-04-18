@@ -50,9 +50,18 @@ public class ChangeRequestResponeServlet extends HttpServlet {
 				String name=(String)session.getAttribute("name");  
 				request.setAttribute("name",name);
 				if(req.getOwnerID().equals(user.getUserID())) {
+					//TODO:check if owner to aprove and deny and dnoe. check if borower if cancel
+					//TODO:add user details page
 					req.setResponse(newResp);
 					mod.editRequest(req);
-					request.setAttribute("message", "request done. item returned to his owner!");
+					String msg;
+					if(newResp.equals("1")) {msg="request approved";}
+					if(newResp.equals("2")) {msg="request Denyed";}
+					if(newResp.equals("3")) {msg="request Done";}
+					if(newResp.equals("4")) {msg="request Canceled";}
+					else {msg="Unknown request status";}
+					
+					request.setAttribute("message", msg);
 				} else {
 					request.setAttribute("message", "you are not the owner! go away!");
 				}
