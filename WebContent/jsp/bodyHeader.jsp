@@ -17,7 +17,7 @@
 			href="HelpServlet" class="w3-bar-item w3-button w3-mobile">Help</a>
 			<a href='ProfileServlet' class='w3-bar-item w3-button w3-mobile w3-right'>
 				<%
-					if (session.getAttribute("name") != null)
+					if (session.getAttribute("user") != null)
 						out.print(session.getAttribute("name") + "'s Profile");
 					else
 						out.print("Login ");
@@ -51,7 +51,7 @@
 		<a href="OffersServlet" class="w3-bar-item w3-button">Offers</a>
 		<%
 			if (session.getAttribute("privilege") != null) {
-				//TODO:make this text different color
+				//TODO OPTION:make this text different color
 				out.print("<a href=\"SearchHistoryServlet\" class=\"w3-bar-item w3-button\">Serach History</a>");
 				out.print("<a href=\"UsersListServlet\" class=\"w3-bar-item w3-button\">Users List</a>");
 				out.print("<a href=\"AllItemsServlet\" class=\"w3-bar-item w3-button\">All Items List</a>");
