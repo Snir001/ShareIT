@@ -47,6 +47,7 @@ public class Model {
 					item.setCondition(myRs.getString("item_condition"));
 					item.setDecription(myRs.getString("description"));
 					item.setPicture(myRs.getString("picture"));	
+					itemsList.add(item);
 					System.out.println("3");
 				}
 			}
