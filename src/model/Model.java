@@ -31,12 +31,7 @@ public class Model {
 			// Execute SQL query
 			ResultSet myRs = myStmt.executeQuery(query);
 			// Process the result set
-			System.out.println("1");
 			while (myRs.next()) {
-				System.out.println("2");
-				System.out.println(myRs.getString("name").contains(search_query));
-				System.out.println(myRs.getString("description").contains(search_query));
-				System.out.println("**************************************************************");
 				if (myRs.getString("name").contains(search_query) || myRs.getString("description").contains(search_query)) {
 					item = new Items();
 					item.setItemID(myRs.getString("itemID"));
@@ -48,14 +43,11 @@ public class Model {
 					item.setDecription(myRs.getString("description"));
 					item.setPicture(myRs.getString("picture"));	
 					itemsList.add(item);
-					System.out.println("3");
 				}
 			}
-			System.out.println("end");
 			return itemsList;
 		}
 		catch (Exception  exc){
-			System.out.println("in exc");
 			exc.printStackTrace();
 			return null;
 		}
@@ -152,8 +144,9 @@ public class Model {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			String query = addQuery("requests", requests_columns, data);
-			String getID = "SELECT requestID FROM items ORDER BY requestID DESC LIMIT 1";
-			myStmt.executeQuery(query);
+			System.out.println(query);
+			String getID = "SELECT requestID FROM requests ORDER BY requestID DESC LIMIT 1";
+			myStmt.executeUpdate(query);
 			ResultSet myRs = myStmt.executeQuery(getID);
 			while (myRs.next()) {
 				requestID =  myRs.getString("requestID");
