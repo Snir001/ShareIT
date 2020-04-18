@@ -1,4 +1,5 @@
 /build/
 WebContent/ItemPictures/*
+!WebContent/ItemPictures/default/
 .classpath
 WebContent/WEB-INF/web.xml
