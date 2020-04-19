@@ -1,8 +1,7 @@
-this is list of ${name} Requests
 <%@page import="model.Requests"%>
 <%@page import="java.util.*"%>
 <div class="w3-container">
-  <p>Pepole want this item from you</p>
+  <p>People want this item from you</p>
 
   <table class="w3-table w3-striped">
     <tr>

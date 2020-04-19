@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,6 +43,12 @@ public class RemoveUserServlet extends HttpServlet {
 			model.Users user=(model.Users)session.getAttribute("user");
 			if(user!=null && user.getPrivileges().equals("0")){	
 				String removeUserId=request.getParameter("user_id");
+				//delete all this user items:
+				List<model.Items> items=mod.getItemsByUserID(removeUserId);
+				for(int i=0;i<items.size();i++) {
+					mod.removeItem(items.get(i).getItemID());
+				}
+				//if the user delete itself, logout
 				if(removeUserId.equals(user.getUserID())){
 					session.invalidate();
 				}

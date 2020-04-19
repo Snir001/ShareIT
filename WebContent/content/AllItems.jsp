@@ -24,10 +24,13 @@ this is list of ${name} Offers
 		<%
 	      model.Model mod = (model.Model)getServletContext().getAttribute("model");
 	      List<model.Items> items=(List<model.Items>)request.getAttribute("items");
-		  String status;
+		  String picture;
 		  model.Items item;
 		  for(int i=0;i<items.size();i++) {
 			  item=items.get(i);
+		    if(item.getPicture().equals("1")) { picture="yes";}
+		    else if (item.getPicture().equals("0")) {picture="no";}
+		    else {	picture="somthing wrong";}
 			  /*
 			<th>Item ID</th>
 			<th>Item Name</th>
@@ -44,11 +47,10 @@ this is list of ${name} Offers
 			    out.println("<td>"+item.getName()+"</td>");
 			    out.println("<td><a href='ProfilePageServlet?user_name="+mod.getUserByID(item.getOwnerID()).getUserName()+"'>"+mod.getUserByID(item.getOwnerID()).getUserName()+"</a></td>");
 			    out.println("<td>"+item.getCategory()+"</td>");
-			    out.println("<td>"+item.getItemValue()+"</td>");
+			    out.println("<td>"+item.getItemValue()+"$</td>");
 			    out.println("<td>"+item.getCondition()+"</td>");
-			    out.println("<td>"+item.getPicture()+"</td>");
+			    out.println("<td>"+picture+"</td>");
 			    out.println("<td><a href='RemoveItemServlet?item_id="+item.getItemID()+"'>X</a></td>");
-
 			    out.println("</tr>");
 		  }
 		  %>

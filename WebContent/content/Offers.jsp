@@ -1,9 +1,7 @@
-this is list of ${name} Offers
 <%@page import="model.Requests"%>
 <%@page import="java.util.*"%>
 
 <div class="w3-container">
-  <h2>Striped Table</h2>
   <p>You want from people</p>
 
   <table class="w3-table w3-striped">

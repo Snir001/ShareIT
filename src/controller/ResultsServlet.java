@@ -37,10 +37,8 @@ public class ResultsServlet extends HttpServlet {
 
 		String search=request.getParameter("search");
 		request.setAttribute("search", search);
-//		List<Items> itemSearch(String search_query)
 		List<model.Items> results=mod.itemSearch(search);
 		request.setAttribute("results", results);
-		//TODO get search results and send them to jsp
 		
 		request.setAttribute("title", "Results");
 		request.setAttribute("page","content/Results.jsp");

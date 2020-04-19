@@ -1,3 +1,4 @@
+<%@page import="model.Users"%>
 <%@page import="model.Items"%>
 <%  
 model.Model mod = (model.Model)getServletContext().getAttribute("model");
@@ -7,7 +8,7 @@ out.print("Item ID: "+item.getItemID()+"<br>");
 out.print("Item Name: "+item.getName()+"<br>");
 out.print("Item Owner: <a href='ProfilePageServlet?user_name="+mod.getUserByID(item.getOwnerID()).getUserName()+"'>"+mod.getUserByID(item.getOwnerID()).getUserName()+"</a><br>"
 );
-out.print("Item Value: "+item.getItemValue()+"<br>");
+out.print("Item Value: "+item.getItemValue()+"$<br>");
 out.print("Item Condition: "+item.getCondition()+"<br>");
 out.print("Item Category: "+item.getCategory()+"<br>");
 out.print("Item Description: "+item.getDecription()+"<br>");
@@ -19,8 +20,19 @@ if(item.getPicture().equals("1")) {
 } else{
 	pictureUrl=url+"default";
 }
-out.print("<img src='" + pictureUrl + "' class='w3-round w3-padding-16' height='150' width='150'>");
+out.print("<img src='" + pictureUrl + "' class='w3-round w3-padding-16' height='150' width='150'><br>");
 
-out.print("<a href='ReqestItemServlet?id="+item.getItemID()+"'>Request Item</a>");
+if(session!=null) {
+	Users user=(Users)session.getAttribute("user");
+	if(user!=null) {
+		if(user.getPrivileges().equals("0")||user.getUserID().equals(item.getOwnerID())){
+			out.print("<a href='RemoveItemServlet?item_id="+item.getItemID()+"'>Remove Item</a><br>");
+		}
+		if(!user.getUserID().equals(item.getOwnerID())){
+			out.print("<a href='ReqestItemServlet?id="+item.getItemID()+"'>Request Item</a><br>");
+		}
+						
+	}
+}
 //TODO: add option to delete for the owner
 %>  

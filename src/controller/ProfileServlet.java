@@ -35,7 +35,7 @@ public class ProfileServlet extends HttpServlet {
 
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		HttpSession session=request.getSession(false); 
-		request.setAttribute("page","content/LoginFirst.jsp");
+		request.setAttribute("page","content/Login.jsp");
 		if(session!=null) {
 			model.Users user=(model.Users)session.getAttribute("user");
 			if(user!=null){
