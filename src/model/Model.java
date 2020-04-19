@@ -366,6 +366,33 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
+	public Users getUserByUserName(String userName) {
+			String query = "SELECT * FROM users Where user_name ='" + userName + "'";
+			Users user = new Users();
+			try {
+				Statement myStmt = myCon.createStatement();
+				ResultSet myRs = myStmt.executeQuery(query);
+				
+				while (myRs.next()) {
+					user.setUserID(myRs.getString("userID"));
+					user.setLastName(myRs.getString("last_name"));
+					user.setFirstName(myRs.getString("first_name"));
+					user.setUserName(myRs.getString("user_name"));
+					user.setPassword(null);
+					user.setMail(myRs.getString("email"));
+					user.setAddress(myRs.getString("address"));
+					user.setPhone(myRs.getString("phone"));
+					user.setGender(myRs.getString("gender"));
+					user.setPrivileges(myRs.getString("privileges"));
+				}
+				return user;
+			}
+			catch (Exception  exc){
+				exc.printStackTrace();
+				return null;
+			}
+		}
+	//##################################################################################################################################################
 	public Items getItemByID(String itemID) {
 		String query = "SELECT * FROM items Where itemID ='" + itemID + "'";
 		Items item = new Items();
