@@ -5,13 +5,14 @@ import java.util.*;
 
 public class Model {
 	Connection myCon;
+	// define all column names of the tables
 	String[] users_columns = {"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
 	String[] items_columns = {"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
 	String[] requests_columns = {"itemID", "owner", "borrower", "period", "date", "response"};
 	
 	public Model() {
 		try {
-			// 1. Get a connection to database
+			// Get a connection to database
 			myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/ShareIT", "root", "");
 		}
 		catch (Exception  exc){
@@ -20,19 +21,20 @@ public class Model {
 		
 	}
 	//##################################################################################################################################################
-	public List<Items> itemSearch(String search_query) {
+	public List<Items> itemSearch(String search_query) { // main search
 		Items item = new Items();
-		String query = "SELECT * FROM items";
-		List<Items> itemsList = new ArrayList<Items>();
+		String query = "SELECT * FROM items"; // get all data from database
+		List<Items> itemsList = new ArrayList<Items>(); // create new empty list
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
 			// Execute SQL query
 			ResultSet myRs = myStmt.executeQuery(query);
 			// Process the result set
-			while (myRs.next()) {
-				if (myRs.getString("name").contains(search_query) || myRs.getString("description").contains(search_query)) {
-					item = new Items();
+			while (myRs.next()) { // for every result
+				if (myRs.getString("name").contains(search_query) || myRs.getString("description").contains(search_query)) { // if search query in contained in item name or description
+					// create new item and fill with data
+					item = new Items(); 
 					item.setItemID(myRs.getString("itemID"));
 					item.setName(myRs.getString("name"));
 					item.setOwnerID(myRs.getString("owner"));
@@ -41,10 +43,10 @@ public class Model {
 					item.setCondition(myRs.getString("item_condition"));
 					item.setDecription(myRs.getString("description"));
 					item.setPicture(myRs.getString("picture"));	
-					itemsList.add(item);
+					itemsList.add(item); // add item to list
 				}
 			}
-			return itemsList;
+			return itemsList; // result is a list of items
 		}
 		catch (Exception  exc){
 			exc.printStackTrace();
@@ -52,17 +54,50 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	public Users login(String user_name, String password) { // TODO: check if userName exists
-		Users user = new Users();
+	public List<Items> smartSearch(String search_query) { // main search
+		Items item = new Items();
+		String query = "SELECT * FROM items"; // get all data from database
+		List<Items> itemsList = new ArrayList<Items>(); // create new empty list
+		try {
+			// Create a statement
+			Statement myStmt = myCon.createStatement();
+			// Execute SQL query
+			ResultSet myRs = myStmt.executeQuery(query);
+			// Process the result set
+			while (myRs.next()) { // for every result
+				// create new item and fill with data
+				item = new Items(); 
+				item.setItemID(myRs.getString("itemID"));
+				item.setName(myRs.getString("name"));
+				item.setOwnerID(myRs.getString("owner"));
+				item.setCategory(myRs.getString("category"));
+				item.setItemValue(myRs.getString("item_value"));
+				item.setCondition(myRs.getString("item_condition"));
+				item.setDecription(myRs.getString("description"));
+				item.setPicture(myRs.getString("picture"));	
+				itemsList.add(item); // add item to list				
+			}
+			return itemsList; // result is a list of items
+		}
+		catch (Exception  exc){
+			exc.printStackTrace();
+			return null;
+		}
+	}
+	//##################################################################################################################################################
+	public Users login(String user_name, String password) { // login function with check if user name already exists
+		Users user = new Users(); // create new empty user and assign data
 		try {
 			Statement myStmt = myCon.createStatement();	
-			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user_name + "'";
+			// get all users with the given user name (should be 1 or 0)
+			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user_name + "'"; 
 			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
 			
 			if(myDoubleRs.next()) { // if there is such user name in dataBase
-				ResultSet myRs = myStmt.executeQuery("SELECT * FROM users");
-				while (myRs.next()) {
-					if (myRs.getString("user_name").equals(user_name) && myRs.getString("password").equals(password)){
+				ResultSet myRs = myStmt.executeQuery("SELECT * FROM users"); // get all users data
+				while (myRs.next()) { // for every user
+					if (myRs.getString("user_name").equals(user_name) && myRs.getString("password").equals(password)){ // if user name *and* password match
+						// assign data to user
 						user.setUserID(myRs.getString("userID"));
 						user.setLastName(myRs.getString("last_name"));
 						user.setFirstName(myRs.getString("first_name"));
@@ -83,32 +118,32 @@ public class Model {
 		return user;
 	}
 	//##################################################################################################################################################
-	public String addUser(Users user) {
+	public String addUser(Users user) { // signUp function with check if user name already exists
 		String userID = null;
-		String[] data = userToList(user);
+		String[] data = userToList(user); // create from user a list of user data
 		try {
 			Statement myStmt = myCon.createStatement();
-			
+			// get all users with the given user name (should be 1 or 0)
 			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user.getUserName() + "'";
 			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
 			
 			if(myDoubleRs.next() == false) { // if no such user name in dataBase
-				String query = addQuery("users", users_columns, data);
-				String getID = "SELECT userID FROM users ORDER BY userID DESC LIMIT 1";
-				myStmt.executeUpdate(query);
+				String query = addQuery("users", users_columns, data); // get string query of add element to users table
+				myStmt.executeUpdate(query); // and execute it
+				String getID = "SELECT userID FROM users ORDER BY userID DESC LIMIT 1"; // get the last userID in the table (highest ID value)
 				ResultSet myRs = myStmt.executeQuery(getID);
 				while (myRs.next()) {
-					userID =  myRs.getString("userID");
+					userID =  myRs.getString("userID"); // save the result userID of the new user 
 				}
-				return userID;
+				return userID; // return new user ID
 			}
 			else
-				return "-1";
+				return "-1"; // if user name already exists
 			
 		}
 		catch (Exception  exc){
 			exc.printStackTrace();
-			return "-2";
+			return "-2"; // if there was data base problem
 		}
 	}
 	//##################################################################################################################################################
@@ -219,7 +254,7 @@ public class Model {
 		try {
 			Statement myStmt = myCon.createStatement();	
 			String query = "DELETE FROM users WHERE userID = " + userID;
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			return true;
 		}
 		catch (Exception  exc){
@@ -232,7 +267,7 @@ public class Model {
 		try {
 			Statement myStmt = myCon.createStatement();	
 			String query = "DELETE FROM items WHERE itemID = " + itemID;
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			return true;
 		}
 		catch (Exception  exc){
@@ -245,7 +280,7 @@ public class Model {
 		try {
 			Statement myStmt = myCon.createStatement();	
 			String query = "DELETE FROM requests WHERE requestID = " + requestID;
-			myStmt.executeQuery(query);
+			myStmt.executeUpdate(query);
 			return true;
 		}
 		catch (Exception  exc){
@@ -460,8 +495,7 @@ public class Model {
 				item.setCondition(myRs.getString("item_condition"));
 				item.setDecription(myRs.getString("description"));
 				item.setPicture(myRs.getString("picture"));
-				if (!itemsList.equals(item))
-					itemsList.add(item);
+				itemsList.add(item);
 			}
 			return itemsList;
 		}
@@ -540,7 +574,7 @@ public class Model {
 		return queryA;
 	}
 	//##################################################################################################################################################
-	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {// TODO: edit by item/user/req
+	private static String editQuery(String TableName,String TableKey, String columns[], String data[], String index) {
 		String query = "UPDATE `" + TableName + "` SET ";
 		int i;
 		for (i = 0; i < data.length - 1; i++) {
