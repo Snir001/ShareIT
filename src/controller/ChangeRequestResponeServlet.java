@@ -64,7 +64,7 @@ public class ChangeRequestResponeServlet extends HttpServlet {
 						req.setResponse(newResp);
 						mod.editRequest(req);
 					} else {
-						//not the request creaator:
+						//not the request creator:
 						msg="you are not the owner of this request! go away!";
 
 					}

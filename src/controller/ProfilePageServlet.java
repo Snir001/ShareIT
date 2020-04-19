@@ -41,7 +41,7 @@ public class ProfilePageServlet extends HttpServlet {
 			if(user!=null){	
 				String showUserName=request.getParameter("user_name");
 				model.Users showUser=mod.getUserByUserName(showUserName);
-				if(showUser!=null) {
+				if(showUser==null && showUser.getUserID().equals("null")) {
 				request.setAttribute("show_user", showUser);
 				request.setAttribute("page","content/ProfilePage.jsp");
 				}else {

@@ -55,8 +55,16 @@ this is list of ${name} Offers
 			    out.println("<td>"+u.getAddress()+"</td>");
 			    out.println("<td>"+u.getPhone()+"</td>");
 			    out.println("<td>"+u.getGender()+"</td>");
-			    out.println("<td>"+u.getPrivileges()+"</td>");
-			    out.println("<td><a href='MakeAdminServlet?user_id="+u.getUserID()+"'>A</a></td>");
+			    if(u.getPrivileges().equals("0")){
+				    out.println("<td>Admin</td>");
+			    }else {
+				    out.println("<td>User</td>");
+			    }
+			    if(u.getPrivileges().equals("0")){
+				    out.println("<td>-</td>");
+			    }else {
+				    out.println("<td><a href='MakeAdminServlet?user_id="+u.getUserID()+"'>A</a></td>");
+			    }
 			    out.println("<td><a href='RemoveUserServlet?user_id="+u.getUserID()+"'>X</a></td>");
 
 			    out.println("</tr>");

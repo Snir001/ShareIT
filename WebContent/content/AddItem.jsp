@@ -16,7 +16,7 @@ Condition:<select class="" name="condition">
   <option value="bad">Bad</option>
 </select><br>
 Description:<input type="text" name="description"><br>
-<input type="file" name="file" value="explore" />
+<input type="file" name="file" value="explore" /><br>
 
 <input type="submit" value="submit"> <input type="reset" value="reset">
 </form>
