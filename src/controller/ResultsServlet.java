@@ -37,7 +37,7 @@ public class ResultsServlet extends HttpServlet {
 
 		String search=request.getParameter("search");
 		request.setAttribute("search", search);
-		List<model.Items> results=mod.itemSearch(search);
+		List<model.Items> results=mod.smartSearch(search);
 		request.setAttribute("results", results);
 		
 		request.setAttribute("title", "Results");
