@@ -17,13 +17,13 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/AddItemServlet")
 public class AddItemServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AddItemServlet() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public AddItemServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,21 +34,21 @@ public class AddItemServlet extends HttpServlet {
 		request.setAttribute("title","New Item");
 
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		HttpSession session=request.getSession(false);  
-		model.Users user=(model.Users)session.getAttribute("user");
-		if(user!=null){
-			String name=(String)session.getAttribute("name");  
-			request.setAttribute("name",name);
-			request.setAttribute("page","content/AddItem.jsp");
-		}  
-		else{  
-			request.setAttribute("page","content/LoginFirst.jsp");
+		HttpSession session=request.getSession(false); 
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
+			model.Users user=(model.Users)session.getAttribute("user");
+			if(user!=null){
+				String name=(String)session.getAttribute("name");  
+				request.setAttribute("name",name);
+				request.setAttribute("page","content/AddItem.jsp");
+			}  
 		}  
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
 		rd.forward(request, response); 
 		out.close();  
 	}
-	
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

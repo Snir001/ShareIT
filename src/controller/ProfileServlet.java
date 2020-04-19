@@ -17,12 +17,12 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/ProfileServlet")
 public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    	public ProfileServlet() {
-        	super();
-    	}
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ProfileServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,27 +30,20 @@ public class ProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");  
 		PrintWriter out=response.getWriter();  
-		
+
 		request.setAttribute("title","Profile");
 
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		HttpSession session=request.getSession(false); 
-		if(session==null){
-			request.setAttribute("page","content/Login.jsp");
-		}  
-		else 
-		{  
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
 			model.Users user=(model.Users)session.getAttribute("user");
-			if(user==null) {
-				request.setAttribute("page","content/Login.jsp");
-			} else {
+			if(user!=null){
 				String name=(String)session.getAttribute("name");  
 				request.setAttribute("name",name);
 				request.setAttribute("good","yes");
 				request.setAttribute("page","ProfileDet.jsp");
-				
-				System.out.println("Hello, "+name+" Welcome to Profile");
-				System.out.println("id is: " + session.getId());
+
 			}
 
 		}  

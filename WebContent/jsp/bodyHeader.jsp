@@ -47,14 +47,15 @@
 			-->
 		<a href="AddItemServlet" class="w3-bar-item w3-button">Add Item</a>
 		<a href="MyItemsServlet" class="w3-bar-item w3-button">My Items</a> 
-		<a href="RequestsServlet"	class="w3-bar-item w3-button">Requests</a>
+		<a href="RequestsServlet" class="w3-bar-item w3-button">Requests</a>
 		<a href="OffersServlet" class="w3-bar-item w3-button">Offers</a>
 		<%
-			if (session.getAttribute("privilege") != null) {
+		model.Users u=(model.Users)session.getAttribute("user");
+			if (u!= null&&u.getPrivileges().equals("0")) {
 				//TODO OPTION:make this text different color
-				out.print("<a href=\"SearchHistoryServlet\" class=\"w3-bar-item w3-button\">Serach History</a>");
-				out.print("<a href=\"UsersListServlet\" class=\"w3-bar-item w3-button\">Users List</a>");
-				out.print("<a href=\"AllItemsServlet\" class=\"w3-bar-item w3-button\">All Items List</a>");
+				//out.print("<a href=\"SearchHistoryServlet\" class=\"w3-bar-item w3-button\">Serach History</a>");
+				out.print("<a href=\"ShowAllUsersListServlet\" class=\"w3-bar-item w3-button\">Users List</a>");
+				out.print("<a href=\"ShowAllItemsListServlet\" class=\"w3-bar-item w3-button\">All Items List</a>");
 			}
 		%>
 		

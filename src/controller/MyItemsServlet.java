@@ -34,19 +34,19 @@ public class MyItemsServlet extends HttpServlet {
 		PrintWriter out=response.getWriter();  
 		request.setAttribute("title","My Items");
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		HttpSession session=request.getSession(false);  
-		model.Users user=(model.Users)session.getAttribute("user");
-		if(user!=null){
+		HttpSession session=request.getSession(false); 
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
+			model.Users user=(model.Users)session.getAttribute("user");
+			if(user!=null){
 			
 			String name=user.getUserName();  
 			List<model.Items> results=mod.getItemsByUserID(user.getUserID());
 			request.setAttribute("items", results);
 			request.setAttribute("name",name);
 			request.setAttribute("page","content/MyItems.jsp");
-		}  
-		else{  
-			request.setAttribute("page","content/LoginFirst.jsp");
-		}  
+			}
+		}
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
 		rd.forward(request, response); 
 		out.close();  

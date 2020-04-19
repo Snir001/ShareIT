@@ -36,8 +36,6 @@ public class ItemDetailsServlet extends HttpServlet {
 		model.Items item=(model.Items)mod.getItemByID(itemId);
 		if(item.getCategory()!=null) {
 			request.setAttribute("item", mod.getItemByID(itemId));
-			System.out.println("name: "+item.getName());
-			System.out.println("id: "+item.getItemID());
 			request.setAttribute("message", "you are in the item page");
 			request.setAttribute("page","content/ItemDetails.jsp");
 

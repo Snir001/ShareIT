@@ -31,12 +31,16 @@ public class ReqestItemServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
+		request.setAttribute("title","Request Item");
+
 		
 		String itemId=request.getParameter("id");
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		HttpSession session=request.getSession(false);  
-		model.Users user=(model.Users)session.getAttribute("user");
-		if(user!=null){
+		HttpSession session=request.getSession(false); 
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
+			model.Users user=(model.Users)session.getAttribute("user");
+			if(user!=null){	
 //			"itemID", "owner(userID)", "borrower(userID)", "period", "response"
 			String[] data= {itemId,user.getUserID(),"week",""};
 			System.out.println("passing :"+data);
@@ -52,9 +56,8 @@ public class ReqestItemServlet extends HttpServlet {
 			request.setAttribute("message", "item requested seccesfully!");
 			request.setAttribute("title", "Item Requested");
 			request.setAttribute("page","content/FreeMessage.jsp");
-		} else {
-			request.setAttribute("page","content/LoginFirst.jsp");
-		}
+			}
+		} 
 
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
         rd.forward(request, response); 

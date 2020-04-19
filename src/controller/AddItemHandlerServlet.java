@@ -67,18 +67,12 @@ public class AddItemHandlerServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
 
-		
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		HttpSession session=request.getSession(false); 
-		if(session==null){
-			request.setAttribute("page","content/LoginFirst.jsp");
-		}  
-		else 
-		{  
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
 			model.Users user=(model.Users)session.getAttribute("user");
-			if(user==null) {
-				request.setAttribute("page","content/LoginFirst.jsp");
-			} else {
+			if(user!=null){
 				String ItemName=request.getParameter("name");
 				String ItemCategory=request.getParameter("category");
 				String ItemValue=request.getParameter("value");
@@ -103,7 +97,6 @@ public class AddItemHandlerServlet extends HttpServlet {
 				
 				
 				if(picture.equals("1")) {
-					System.out.println("we have file");
 				    String fileName = getSubmittedFileName(filePart); // MSIE fix.
 				    InputStream fileContent = filePart.getInputStream();
 				    
@@ -112,7 +105,7 @@ public class AddItemHandlerServlet extends HttpServlet {
 				    //create new folder:
 			//	    C:\\Users\\SnirY\\OneDrive\\Documents\\Bar Ilan\\sems5\\Software eng\\ShareIT\\WebContent\\ItemPictures\\
 				    String upload_path=getServletContext().getInitParameter("upload_location")+ItemID;
-				    System.out.println("upload_path is : " + upload_path);
+//				    System.out.println("upload_path is : " + upload_path);
 			
 				    new File(upload_path).mkdir();
 				    File uploads = new File(upload_path);
@@ -125,7 +118,7 @@ public class AddItemHandlerServlet extends HttpServlet {
 				    }
 				    
 				    //show list of pictures
-				    System.out.println("file path at : " +file.getPath() );
+//				    System.out.println("file path at : " +file.getPath() );
 				} 
 				
 				StringBuffer msg=new StringBuffer("<h1>You added a new item:</h1>");

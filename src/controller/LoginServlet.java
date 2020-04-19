@@ -38,7 +38,6 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out=response.getWriter();
-		System.out.println("loginServlet");
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		
 
@@ -48,9 +47,6 @@ public class LoginServlet extends HttpServlet {
 		
 		
 		model.Users user = mod.login(id, password);
-		System.out.println("user = "+id);
-		System.out.println("password = "+password);
-		System.out.println("userID = "+user.getUserID());
 		if(user.getUserID() != null) {
 //		if(password.equals("1234")) {
 			

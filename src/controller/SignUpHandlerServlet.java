@@ -55,6 +55,7 @@ public class SignUpHandlerServlet extends HttpServlet {
 		newUser.setCity(request.getParameter("city"));
 		newUser.setAddress(request.getParameter("address"));
 		newUser.setPhone(request.getParameter("phone"));
+		newUser.setPrivileges("1");
 		
 		//try to create user
 		String userId=mod.addUser(newUser);
