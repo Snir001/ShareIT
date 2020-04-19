@@ -26,10 +26,10 @@ if(session!=null) {
 	Users user=(Users)session.getAttribute("user");
 	if(user!=null) {
 		if(user.getPrivileges().equals("0")||user.getUserID().equals(item.getOwnerID())){
-			out.print("<a href='RemoveItemServlet?item_id="+item.getItemID()+"'>Remove Item</a><br>");
+			out.print("<a href='RemoveItemServlet?item_id="+item.getItemID()+"'><button class='w3-button w3-border w3-hover-red'>Remove Item</button></a><br>");
 		}
 		if(!user.getUserID().equals(item.getOwnerID())){
-			out.print("<a href='ReqestItemServlet?id="+item.getItemID()+"'>Request Item</a><br>");
+			out.print("<a href='ReqestItemServlet?id="+item.getItemID()+"'><button class='w3-button w3-border w3-hover-purple'>Request Item</button></a><br>");
 		}
 						
 	}
