@@ -11,13 +11,13 @@ public class Requests {
 	private String response;
 	
 	public Requests() {
-		requestID = null;
-		itemID = null;
-		ownerID = null;
-		borrowerID = null;
-		period = null;
-		date = null;
-		response = null;
+		setRequestID(null);
+		setItemID(null);
+		setOwnerID(null);
+		setBorrowerID(null);
+		setPeriod(null);
+		setDate(null);
+		setResponse(null);
 	}
 	public String getRequestID() {
 		return requestID;

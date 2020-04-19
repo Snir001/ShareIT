@@ -1,7 +1,7 @@
 package model;
 
 
-public class Items {
+public class Items implements Comparable< Items >{
 	private String itemID;
 	private String name;
 	private String ownerID; // userID
@@ -10,16 +10,18 @@ public class Items {
 	private String condition;
 	private String decription;
 	private String picture;
+	private double searchScore;
 	
 	public Items() {
-		itemID = null;
-		name = null;
-		ownerID = null; // userID
-		category = null;
-		itemValue = null;
-		condition = null;
-		decription = null;
-		picture = null;
+		setItemID(null);
+		setName(null);
+		setOwnerID(null); // userID
+		setCategory(null);
+		setItemValue(null);
+		setCondition(null);
+		setDecription(null);
+		setPicture(null);
+		setSearchScore(1);
 	}
 	
 	public String getItemID() {
@@ -69,5 +71,21 @@ public class Items {
 	}
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public double getSearchScore() {
+		return searchScore;
+	}
+
+	public void setSearchScore(double searchScore) {
+		this.searchScore = searchScore;
+	}
+
+	@Override
+	public int compareTo(Items item) {
+		if (this.getSearchScore() > item.getSearchScore())
+			return 1;
+		else
+			return 0;
 	}
 }

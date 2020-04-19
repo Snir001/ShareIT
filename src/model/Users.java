@@ -15,17 +15,17 @@ public class Users extends User {
 	private String privileges;
 	
 	public Users() {
-		userID = null;
-		lastName = null;
-		firstName = null;
-		userName = null;
-		password = null;
-		mail = null;
-		city = null;
-		address = null;
-		phone = null;
-		gender = null;
-		privileges = null;
+		setUserID(null);
+		setLastName(null);
+		setFirstName(null);
+		setUserName(null);
+		setPassword(null);
+		setMail(null);
+		setCity(null);
+		setAddress(null);
+		setPhone(null);
+		setGender(null);
+		setPrivileges(null);
 	}
 	
 	public String getUserID() {

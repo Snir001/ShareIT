@@ -3,14 +3,17 @@ import java.sql.*;
 import java.util.*;
 
 
+
 public class Model {
 	Connection myCon;
+	static double goodScore;
 	// define all column names of the tables
 	String[] users_columns = {"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
 	String[] items_columns = {"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
 	String[] requests_columns = {"itemID", "owner", "borrower", "period", "date", "response"};
 	
 	public Model() {
+		goodScore = 0.5;
 		try {
 			// Get a connection to database
 			myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/ShareIT", "root", "");
@@ -57,7 +60,7 @@ public class Model {
 	public List<Items> smartSearch(String search_query) { // main search
 		Items item = new Items();
 		String query = "SELECT * FROM items"; // get all data from database
-		List<Items> itemsList = new ArrayList<Items>(); // create new empty list
+		List<Items> itemsList = new ArrayList<Items>();
 		try {
 			// Create a statement
 			Statement myStmt = myCon.createStatement();
@@ -74,8 +77,13 @@ public class Model {
 				item.setItemValue(myRs.getString("item_value"));
 				item.setCondition(myRs.getString("item_condition"));
 				item.setDecription(myRs.getString("description"));
-				item.setPicture(myRs.getString("picture"));	
-				itemsList.add(item); // add item to list				
+				item.setPicture(myRs.getString("picture"));
+				item.setSearchScore(Math.min(scoreByName(search_query, item.getName()), scoreByDesc(search_query, item.getDecription())));
+				System.out.println("item score: " + item.getSearchScore());
+				if (item.getSearchScore() < goodScore)
+					itemsList.add(item);
+				Collections.sort(itemsList);
+				//itemsList.sort(Comparator.comparing(Items::getSearchScore));
 			}
 			return itemsList; // result is a list of items
 		}
@@ -84,16 +92,28 @@ public class Model {
 			return null;
 		}
 	}
+	private double scoreByName(String search_query, String name) {
+		//System.out.println("***********item name is: " + name + "******************");
+		//System.out.println("name distance is: " + dist(search_query, name));
+		return dist(search_query, name);
+	}
+	private double scoreByDesc(String search_query, String decription) {
+		//System.out.println("***********item decription is: " + decription + "******************");
+		double score = 1;
+		String[] words = decription.split(" ");
+		for (int i = 0; i < words.length; i++) {
+			System.out.println("word " + i + " distance is: " + dist(search_query, words[i]));
+			if (dist(search_query, words[i]) < score) {
+				score = dist(search_query, words[i]);
+			}
+		}
+		return score;
+	}
 	//##################################################################################################################################################
 	public Users login(String user_name, String password) { // login function with check if user name already exists
 		Users user = new Users(); // create new empty user and assign data
 		try {
-			Statement myStmt = myCon.createStatement();	
-			// get all users with the given user name (should be 1 or 0)
-			String doubleCheck = "SELECT * FROM users WHERE user_name = '" + user_name + "'"; 
-			ResultSet myDoubleRs = myStmt.executeQuery(doubleCheck);
-			
-			if(myDoubleRs.next()) { // if there is such user name in dataBase
+			Statement myStmt = myCon.createStatement();			
 				ResultSet myRs = myStmt.executeQuery("SELECT * FROM users"); // get all users data
 				while (myRs.next()) { // for every user
 					if (myRs.getString("user_name").equals(user_name) && myRs.getString("password").equals(password)){ // if user name *and* password match
@@ -108,7 +128,6 @@ public class Model {
 						user.setPhone(myRs.getString("phone"));
 						user.setGender(myRs.getString("gender"));
 						user.setPrivileges(myRs.getString("privileges"));
-					}
 				}
 			}
 		}
@@ -139,7 +158,6 @@ public class Model {
 			}
 			else
 				return "-1"; // if user name already exists
-			
 		}
 		catch (Exception  exc){
 			exc.printStackTrace();
@@ -611,4 +629,48 @@ public class Model {
 		return data;
 	}
 	//##################################################################################################################################################
+	public static double dist(String stringA, String stringB) {
+		
+		char[] s1 = stringToChars(stringA);
+		char[] s2 = stringToChars(stringB);
+
+	    // memorize only previous line of distance matrix     
+	    int[] prev = new int[ s2.length + 1 ];
+
+	    for( int j = 0; j < s2.length + 1; j++ ) {
+	        prev[ j ] = j;
+	    }
+
+	    for( int i = 1; i < s1.length + 1; i++ ) {
+
+	        // calculate current line of distance matrix     
+	        int[] curr = new int[ s2.length + 1 ];
+	        curr[0] = i;
+
+	        for( int j = 1; j < s2.length + 1; j++ ) {
+	            int d1 = prev[ j ] + 1;
+	            int d2 = curr[ j - 1 ] + 1;
+	            int d3 = prev[ j - 1 ];
+	            if ( s1[ i - 1 ] != s2[ j - 1 ] ) {
+	                d3 += 1;
+	            }
+	            curr[ j ] = Math.min( Math.min( d1, d2 ), d3 );
+	        }
+
+	        // define current line of distance matrix as previous     
+	        prev = curr;
+	    }
+	    double normal = ((double)prev[s2.length] / (double) Math.max(stringA.length(), stringB.length()));
+	    return normal;
+	}
+	public static char[] stringToChars(String str) {
+	  
+		// Creating array of string length 
+		char[] ch = new char[str.length()]; 
+		// Copy character by character into array 
+		for (int i = 0; i < str.length(); i++) { 
+			ch[i] = str.charAt(i); 
+		}
+		return ch;
+	} 
 }
