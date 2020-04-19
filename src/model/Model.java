@@ -170,7 +170,7 @@ public class Model {
 						user.setLastName(myRs.getString("last_name"));
 						user.setFirstName(myRs.getString("first_name"));
 						user.setUserName(myRs.getString("user_name"));
-						user.setPassword(myRs.getString("password"));
+						user.setPassword(myRs.getString(null));
 						user.setMail(myRs.getString("email"));
 						user.setAddress(myRs.getString("address"));
 						user.setPhone(myRs.getString("phone"));
@@ -452,7 +452,7 @@ public class Model {
 				user.setLastName(myRs.getString("last_name"));
 				user.setFirstName(myRs.getString("first_name"));
 				user.setUserName(myRs.getString("user_name"));
-				user.setPassword(null);
+				user.setPassword("password");
 				user.setMail(myRs.getString("email"));
 				user.setAddress(myRs.getString("address"));
 				user.setPhone(myRs.getString("phone"));
@@ -625,7 +625,7 @@ public class Model {
 		}
 	}
 	//##################################################################################################################################################
-	public double dist(String stringA, String stringB) {
+	private double dist(String stringA, String stringB) {
 		
 		char[] s1 = stringToChars(stringA);
 		char[] s2 = stringToChars(stringB);
@@ -660,7 +660,7 @@ public class Model {
 	    return normal;
 	}
 	//##################################################################################################################################################
-	public char[] stringToChars(String str) {
+	private char[] stringToChars(String str) {
 	  
 		// Creating array of string length 
 		char[] ch = new char[str.length()]; 
@@ -671,7 +671,7 @@ public class Model {
 		return ch;
 	}
 	//##################################################################################################################################################
-	public void setGoodscore(double score) {
+	private void setGoodscore(double score) {
 		this.goodScore = score;
 	}
 	//##################################################################################################################################################
