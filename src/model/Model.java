@@ -170,7 +170,6 @@ public class Model {
 						user.setLastName(myRs.getString("last_name"));
 						user.setFirstName(myRs.getString("first_name"));
 						user.setUserName(myRs.getString("user_name"));
-						user.setPassword(myRs.getString(null));
 						user.setMail(myRs.getString("email"));
 						user.setAddress(myRs.getString("address"));
 						user.setPhone(myRs.getString("phone"));
