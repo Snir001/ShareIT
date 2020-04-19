@@ -6,14 +6,14 @@ import java.util.*;
 
 public class Model {
 	Connection myCon;
-	static double goodScore;
+	double goodScore;
 	// define all column names of the tables
 	String[] users_columns = {"last_name", "first_name", "user_name", "password", "email", "city", "address", "phone", "gender", "privileges"};
 	String[] items_columns = {"name", "owner", "category", "item_value", "item_condition", "description", "picture"};
 	String[] requests_columns = {"itemID", "owner", "borrower", "period", "date", "response"};
 	
 	public Model() {
-		goodScore = 0.5;
+		setGoodscore(0.5);
 		try {
 			// Get a connection to database
 			myCon = DriverManager.getConnection("jdbc:mysql://localhost:3306/ShareIT", "root", "");
@@ -78,7 +78,7 @@ public class Model {
 				item.setCondition(myRs.getString("item_condition"));
 				item.setDecription(myRs.getString("description"));
 				item.setPicture(myRs.getString("picture"));
-				item.setSearchScore(Math.min(scoreByName(search_query, item.getName()), scoreByDesc(search_query, item.getDecription())));
+				item.setSearchScore(Math.min(scoreByString(search_query, item.getName()), scoreByString(search_query, item.getDecription())));
 				System.out.println("item score: " + item.getSearchScore());
 				if (item.getSearchScore() < goodScore)
 					itemsList.add(item);
@@ -92,15 +92,10 @@ public class Model {
 			return null;
 		}
 	}
-	private double scoreByName(String search_query, String name) {
+	private double scoreByString(String search_query, String str) {
 		//System.out.println("***********item name is: " + name + "******************");
-		//System.out.println("name distance is: " + dist(search_query, name));
-		return dist(search_query, name);
-	}
-	private double scoreByDesc(String search_query, String decription) {
-		//System.out.println("***********item decription is: " + decription + "******************");
 		double score = 1;
-		String[] words = decription.split(" ");
+		String[] words = str.split(" ");
 		for (int i = 0; i < words.length; i++) {
 			System.out.println("word " + i + " distance is: " + dist(search_query, words[i]));
 			if (dist(search_query, words[i]) < score) {
@@ -629,7 +624,7 @@ public class Model {
 		return data;
 	}
 	//##################################################################################################################################################
-	public static double dist(String stringA, String stringB) {
+	public double dist(String stringA, String stringB) {
 		
 		char[] s1 = stringToChars(stringA);
 		char[] s2 = stringToChars(stringB);
@@ -663,7 +658,7 @@ public class Model {
 	    double normal = ((double)prev[s2.length] / (double) Math.max(stringA.length(), stringB.length()));
 	    return normal;
 	}
-	public static char[] stringToChars(String str) {
+	public char[] stringToChars(String str) {
 	  
 		// Creating array of string length 
 		char[] ch = new char[str.length()]; 
@@ -672,5 +667,8 @@ public class Model {
 			ch[i] = str.charAt(i); 
 		}
 		return ch;
-	} 
+	}
+	public void setGoodscore(double score) {
+		this.goodScore = score;
+	}
 }

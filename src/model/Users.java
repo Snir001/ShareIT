@@ -1,7 +1,7 @@
 package model;
 
 
-public class Users extends User {
+public class Users{
 	private String userID;
 	private String lastName;
 	private String firstName;
@@ -94,20 +94,19 @@ public class Users extends User {
 	public void setPrivileges(String privileges) {
 		this.privileges = privileges;
 	}
-	public String printUser() {
-		String details = this.getUserID();
-		details += "\n" + this.getLastName();
-		details += "\n" + this.getFirstName();
-		details += "\n" + this.getUserName();
-		details += "\n" + this.getPassword();
-		details += "\n" + this.getMail();
-		details += "\n" + this.getCity();
-		details += "\n" + this.getAddress();
-		details += "\n" + this.getPhone();
-		details += "\n" + this.getGender();
-		details += "\n" + this.getPrivileges();
-		System.out.println(details);
-		return details;
-	}
-	
+//	public String printUser() {
+//		String details = this.getUserID();
+//		details += "\n" + this.getLastName();
+//		details += "\n" + this.getFirstName();
+//		details += "\n" + this.getUserName();
+//		details += "\n" + this.getPassword();
+//		details += "\n" + this.getMail();
+//		details += "\n" + this.getCity();
+//		details += "\n" + this.getAddress();
+//		details += "\n" + this.getPhone();
+//		details += "\n" + this.getGender();
+//		details += "\n" + this.getPrivileges();
+//		System.out.println(details);
+//		return details;
+//	}
 }
