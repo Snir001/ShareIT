@@ -18,13 +18,13 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/RequestsServlet")
 public class RequestsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RequestsServlet() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public RequestsServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,18 +35,18 @@ public class RequestsServlet extends HttpServlet {
 		request.setAttribute("title","Requests");
 
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
-		HttpSession session=request.getSession(false);  
-		model.Users user=(model.Users)session.getAttribute("user");
-		if(user!=null){
-			String name=(String)session.getAttribute("name");  
-			List<model.Requests> req=mod.getRecievedRequestsByUserID(user.getUserID());
-			request.setAttribute("requests", req);
-			request.setAttribute("name",name);
-			request.setAttribute("page","content/Requests.jsp");
-		}  
-		else{  
-			request.setAttribute("page","content/LoginFirst.jsp");
-		}  
+		HttpSession session=request.getSession(false); 
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
+			model.Users user=(model.Users)session.getAttribute("user");
+			if(user!=null){
+				String name=(String)session.getAttribute("name");  
+				List<model.Requests> req=mod.getRecievedRequestsByUserID(user.getUserID());
+				request.setAttribute("requests", req);
+				request.setAttribute("name",name);
+				request.setAttribute("page","content/Requests.jsp");
+			} 
+		}
 		RequestDispatcher rd=request.getRequestDispatcher("template.jsp");  
 		rd.forward(request, response); 
 		out.close();  

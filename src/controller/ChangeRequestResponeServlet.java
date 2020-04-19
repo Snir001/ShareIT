@@ -17,13 +17,13 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/ChangeRequestResponeServlet")
 public class ChangeRequestResponeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ChangeRequestResponeServlet() {
-        super();
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ChangeRequestResponeServlet() {
+		super();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,40 +31,49 @@ public class ChangeRequestResponeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");  
 		PrintWriter out=response.getWriter();  
-		
+
 		request.setAttribute("title","Request Approve");
-		
+
 		model.Model mod = (model.Model)getServletContext().getAttribute("model");
 		model.Requests req=mod.getRequestByID(request.getParameter("req_id"));
 		String newResp=request.getParameter("new_resp");
 		HttpSession session=request.getSession(false); 
-		if(session==null){
-			request.setAttribute("page","content/LoginFirst.jsp");
-		}  
-		else 
-		{  
+		request.setAttribute("page","content/LoginFirst.jsp");
+		if(session!=null) {
 			model.Users user=(model.Users)session.getAttribute("user");
-			if(user==null) {
-				request.setAttribute("page","content/LoginFirst.jsp");
-			} else {
+			if(user!=null){
 				String name=(String)session.getAttribute("name");  
 				request.setAttribute("name",name);
-				if(req.getOwnerID().equals(user.getUserID())) {
-					//TODO:check if owner to aprove and deny and dnoe. check if borower if cancel
-					//TODO:add user details page
-					req.setResponse(newResp);
-					mod.editRequest(req);
-					String msg;
-					if(newResp.equals("1")) {msg="request approved";}
-					if(newResp.equals("2")) {msg="request Denyed";}
-					if(newResp.equals("3")) {msg="request Done";}
-					if(newResp.equals("4")) {msg="request Canceled";}
-					else {msg="Unknown request status";}
-					
-					request.setAttribute("message", msg);
+				String msg="";
+				if(newResp.equals("1")||newResp.equals("2")||newResp.equals("3")) {
+					if(req.getOwnerID().equals(user.getUserID())) {
+						//TODO:check if owner to aprove and deny and dnoe. check if borower if cancel
+						//TODO:add user details page
+
+						if(newResp.equals("1")) {msg="request approved";}
+						else if(newResp.equals("2")) {msg="request Denyed";}
+						else if(newResp.equals("3")) {msg="request Done";}
+						req.setResponse(newResp);
+						mod.editRequest(req);
+					} else {
+						msg= "you are not the owner of this item! go away!";
+					}
+				} else if(newResp.equals("4")){
+					if(req.getBorrowerID().equals(user.getUserID())) {
+						{msg="request Canceled";}
+						req.setResponse(newResp);
+						mod.editRequest(req);
+					} else {
+						//not the request creaator:
+						msg="you are not the owner of this request! go away!";
+
+					}
 				} else {
-					request.setAttribute("message", "you are not the owner! go away!");
+					//some strange respone code:
+					msg="What are you trying to do with respone code="+newResp+"?";
 				}
+
+				request.setAttribute("message", msg);
 				request.setAttribute("page","content/FreeMessage.jsp");
 			}
 
